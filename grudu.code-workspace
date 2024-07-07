@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "name": "grudu",
+      "path": ".",
+    },
+    // Inside the client directory, we have the client part of the project
+    {
+      "name": "frontend",
+      "path": "frontend",
+    },
+    // Inside the server directory, we have the server part of the project
+    {
+      "name": "backend",
+      "path": "backend",
+    },
+  ],
+  "settings": {
+    // We don't want to show duplicates, so we hide the directories that are already showing up as workspaces
+    "files.exclude": {
+      "backend": true,
+      "frontend": true,
+    },
+  },
+}
