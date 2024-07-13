@@ -11,6 +11,20 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  config.log_level = :debug
+  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', 'custom.log'))
+  config.logger.formatter = proc do |severity, datetime, progname, msg|
+    change_color = "\e[38;5;234m"
+    reset_color = "\e[0m"
+    # exclude query trace and cache logs
+    if !msg.include?('Query Trace') && !msg.include?('CACHE')
+      formatted_datetime = "#{datetime.strftime('%Y-%m-%d %H:%M:%S')}"
+      formatted_msg = severity == 'DEBUG' ? "    #{msg}" : msg
+      formatted_log = "#{change_color} #{formatted_datetime} - #{severity.ljust(5)} | #{reset_color}#{formatted_msg}"
+      "#{formatted_log}\n"
+    end
+  end
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
