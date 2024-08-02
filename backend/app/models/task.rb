@@ -6,4 +6,6 @@ class Task < ApplicationRecord
   validates :owner, presence: true
 
   scope :viewable_by, ->(user) { where(owner_id: user.id) }
+
+  def authorized?(user) = owner_id == user.id
 end

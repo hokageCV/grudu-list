@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show update destroy ]
   before_action :authenticate_user!
+  before_action :set_task, only: %i[ show update destroy ]
+  before_action :authorize_user!, only: %i[show update destroy]
 
   # GET /tasks
   def index
@@ -36,17 +37,25 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    @task.destroy!
+    if @task.destroy
+      render json: { message: 'Task successfully deleted' }, status: :ok
+    else
+      render json: { error: 'Failed to delete task' }, status: :unprocessable_entity
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_task
+    @task = Task.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def task_params
-      params.require(:task).permit(:name, :completed)
-    end
+  # Only allow a list of trusted parameters through.
+  def task_params
+    params.require(:task).permit(:name, :completed)
+  end
+
+  def authorize_user!
+    render json: { error: 'unauthorized' }, status: :forbidden unless @task.authorized?(current_user)
+  end
 end
