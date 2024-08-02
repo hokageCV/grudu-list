@@ -4,4 +4,6 @@ class Task < ApplicationRecord
   validates :name, presence: true
   validates :completed, inclusion: { in: [true, false] }
   validates :owner, presence: true
+
+  scope :viewable_by, ->(user) { where(owner_id: user.id) }
 end

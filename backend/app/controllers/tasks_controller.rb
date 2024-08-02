@@ -1,9 +1,10 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show update destroy ]
+  before_action :authenticate_user!
 
   # GET /tasks
   def index
-    @tasks = Task.all
+    @tasks = Task.all.viewable_by(current_user)
 
     render json: @tasks
   end
@@ -15,7 +16,7 @@ class TasksController < ApplicationController
 
   # POST /tasks
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(task_params.merge(owner_id: current_user.id))
 
     if @task.save
       render json: @task, status: :created, location: @task
@@ -46,6 +47,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :completed, :owner_id)
+      params.require(:task).permit(:name, :completed)
     end
 end
