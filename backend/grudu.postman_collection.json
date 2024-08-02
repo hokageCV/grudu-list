@@ -29,10 +29,16 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "uid",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"email\": \"shoyo12@gmail.com\",\n        \"password\": \"Test@123\"\n    }\n}",
+							"raw": "{\n    // \"user\": {\n        \"name\": \"shoyo\",\n        \"email\": \"shoyo3@gmail.com\",\n        \"password\": \"Test@123\"\n    // }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,12 +46,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/signup",
+							"raw": "{{base_url}}/auth/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"signup"
+								"auth",
+								""
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -59,12 +66,24 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// const response = pm.response.json();",
-									"// const requestTokenHash = pm.response.headers.find(header => header.key && header.key.toLowerCase() === 'authorization')",
-									"// const requiredVariable = pm.environment.values.find(val => val.key === \"jwt-token\")",
-									"// console.log(requiredVariable)",
-									"// console.log(requestTokenHash.value)",
-									"// pm.environment.set('jwt-token', requestTokenHash.value);"
+									"const headersToFind = new Set(['uid', 'access-token', 'client']); ",
+									"",
+									"pm.response.headers.each(header => {",
+									"    const headerName = header.key.toLowerCase();",
+									"    if (headersToFind.has(headerName)) {",
+									"        pm.collectionVariables.set(headerName, header.value);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -76,7 +95,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user\": {\n        \"email\": \"shoyo12@gmail.com\",\n        \"password\": \"Test@123\"\n    }\n}",
+							"raw": "{\n    \"email\": \"shoyo3@gmail.com\",\n    \"password\": \"Test@123\"   \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,60 +103,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/login",
+							"raw": "{{base_url}}/auth/sign_in",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"login"
-							]
-						},
-						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-					},
-					"response": []
-				},
-				{
-					"name": "logout",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-									"});",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmN2ZiM2M2NS01ODYzLTQyNmQtYTJkMi0zOWY3NzZjOTY2ZGYiLCJzdWIiOiIxMiIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTcyMDg4MTE3OSwiZXhwIjoxNzIwODgyOTc5fQ.F9bNU2zU_dS1sBG2LsIWkJRARtl3rq5lkRj35ALqubY",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/logout",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"logout"
+								"auth",
+								"sign_in"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -240,6 +212,24 @@
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 					},
 					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/sign_out",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"sign_out"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -257,7 +247,8 @@
 									"    pm.response.to.have.status(200);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -265,18 +256,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/info?id=1",
+							"raw": "{{base_url}}/tasks",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"info"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"tasks"
 							]
 						},
 						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
@@ -316,13 +301,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/tasks/1",
+							"raw": "{{base_url}}/tasks/4",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"tasks",
-								"1"
+								"4"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -336,59 +321,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Successful PUT request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/info?id=1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"info"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
-							]
-						},
-						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
-					},
-					"response": []
-				},
-				{
-					"name": "task",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Successful DELETE request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -397,7 +336,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n\t\"name\": \"testing task creation\",\n    \"owner_id\": 10\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -405,21 +344,16 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/info?id=1",
+							"raw": "{{base_url}}/tasks/3",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"info"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"tasks",
+								"3"
 							]
 						},
-						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 					},
 					"response": []
 				},
@@ -442,10 +376,29 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "uid",
+								"value": "{{uid}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "client",
+								"value": "{{client}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "access-token",
+								"value": "{{access-token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"testing task creation\",\n    \"owner_id\": 10\n}",
+							"raw": "{\n\t\"name\": \"this is a task\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -495,13 +448,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/tasks/1",
+							"raw": "{{base_url}}/tasks/3",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"tasks",
-								"1"
+								"3"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -517,7 +470,13 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"let initialUid = pm.collectionVariables.get('uid');\r",
+					"let initialClient = pm.collectionVariables.get('client');\r",
+					"let initialAccessToken = pm.collectionVariables.get('access-token');\r",
+					"\r",
+					"pm.request.headers.add({key: 'uid', value: initialUid });\r",
+					"pm.request.headers.add({key: 'client', value: initialClient });\r",
+					"pm.request.headers.add({key: 'access-token', value: initialAccessToken });"
 				]
 			}
 		},
@@ -533,16 +492,23 @@
 	],
 	"variable": [
 		{
-			"key": "id",
-			"value": "1"
-		},
-		{
 			"key": "base_url",
-			"value": "https://postman-rest-api-learner.glitch.me/"
+			"value": "http://127.0.0.1:3000"
 		},
 		{
-			"key": "auth-token",
-			"value": "eyJhbGciOiJIUzI1NiJ9"
+			"key": "uid",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "client",
+			"value": "abcdefg123456",
+			"type": "string"
+		},
+		{
+			"key": "access-token",
+			"value": "lfkaisdjhfaslodik",
+			"type": "string"
 		}
 	]
 }
