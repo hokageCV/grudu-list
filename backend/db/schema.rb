@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_17_105523) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_03_080627) do
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_groups_on_owner_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "completed", default: false, null: false
@@ -33,5 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_17_105523) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "groups", "users", column: "owner_id"
   add_foreign_key "tasks", "users", column: "owner_id"
 end

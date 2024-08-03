@@ -1,4 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable
   include DeviseTokenAuth::Concerns::User
+
+  has_many :tasks, foreign_key: :owner_id, dependent: :destroy
+  has_many :groups, foreign_key: :owner_id, dependent: :destroy
 end
