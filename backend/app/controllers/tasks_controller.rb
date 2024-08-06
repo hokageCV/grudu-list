@@ -49,7 +49,7 @@ class TasksController < ApplicationController
   def set_task
     @task = Task.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Task not found" }, status: :not_found
+    render json: { error: 'Task not found' }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
