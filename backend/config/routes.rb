@@ -8,9 +8,10 @@ Rails.application.routes.draw do
   resources :tasks
 
   resources :groups do
-    resources :memberships, only: [:create, :destroy]
-
     get 'members', to: 'groups#members'
+
+    resources :memberships, only: [:create, :destroy]
+    resources :task_lists, only: [:index, :create, :show, :update, :destroy]
   end
 
   get 'me', to: 'current_user#index'

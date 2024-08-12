@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_03_121202) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_10_154701) do
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.integer "owner_id", null: false
@@ -27,6 +27,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_03_121202) do
     t.index ["group_id"], name: "index_memberships_on_group_id"
     t.index ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "task_lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_task_lists_on_group_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -54,5 +62,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_03_121202) do
   add_foreign_key "groups", "users", column: "owner_id"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
+  add_foreign_key "task_lists", "groups"
   add_foreign_key "tasks", "users", column: "owner_id"
 end

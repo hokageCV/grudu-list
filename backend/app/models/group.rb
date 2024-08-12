@@ -3,6 +3,7 @@ class Group < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_many :members, through: :memberships, source: :user
+  has_many :task_lists, dependent: :destroy
 
   validates :name, presence: true
   validates :owner_id, presence: true
