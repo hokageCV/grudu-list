@@ -45,16 +45,14 @@ class TasksController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Task not found' }, status: :not_found
   end
 
-  # Only allow a list of trusted parameters through.
   def task_params
-    params.require(:task).permit(:name, :completed)
+    params.require(:task).permit(:name, :task_list_id, :completed)
   end
 
   def authorize_user!

@@ -184,7 +184,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"this is a task\"\n}",
+							"raw": "{\n\t\"name\": \"this is a task\",\n    \"task_list_id\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -312,13 +312,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/tasks/7",
+							"raw": "{{base_url}}/tasks/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"tasks",
-								"7"
+								"1"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -421,6 +421,253 @@
 										"memberships"
 									]
 								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "task lists",
+					"item": [
+						{
+							"name": "task list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"this is another task list\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/groups/{{group_id}}/task_lists",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"{{group_id}}",
+										"task_lists"
+									]
+								},
+								"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+							},
+							"response": []
+						},
+						{
+							"name": "task lists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/groups/{{group_id}}/task_lists",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"{{group_id}}",
+										"task_lists"
+									]
+								},
+								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+							},
+							"response": []
+						},
+						{
+							"name": "task list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"testing task creation\",\n    \"owner_id\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/groups/{{group_id}}/task_lists/{{task_list_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"{{group_id}}",
+										"task_lists",
+										"{{task_list_id}}"
+									]
+								},
+								"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+							},
+							"response": []
+						},
+						{
+							"name": "task list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"testing task creation\",\n    \"owner_id\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/groups/{{group_id}}/task_lists/{{task_list_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"{{group_id}}",
+										"task_lists",
+										"{{task_list_id}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								},
+								"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+							},
+							"response": []
+						},
+						{
+							"name": "task list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"testing task list creation modified\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/groups/{{group_id}}/task_lists/{{task_list_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"{{group_id}}",
+										"task_lists",
+										"{{task_list_id}}"
+									]
+								},
+								"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 							},
 							"response": []
 						}
@@ -733,6 +980,10 @@
 			"key": "user_id",
 			"value": "2",
 			"type": "string"
+		},
+		{
+			"key": "task_list_id",
+			"value": "1"
 		}
 	]
 }
