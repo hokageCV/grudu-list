@@ -1,7 +1,7 @@
 {
   "folders": [
     {
-      "name": "grudu",
+      "name": "grudu-list",
       "path": ".",
     },
     // Inside the client directory, we have the client part of the project
