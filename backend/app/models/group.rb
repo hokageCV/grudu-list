@@ -1,5 +1,5 @@
 class Group < ApplicationRecord
-  belongs_to :owner, class_name: 'User'
+  belongs_to :owner, class_name: 'User', inverse_of: :groups
 
   has_many :memberships, dependent: :destroy
   has_many :members, through: :memberships, source: :user

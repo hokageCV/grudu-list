@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-  belongs_to :owner, class_name: 'User'
+  belongs_to :owner, class_name: 'User', inverse_of: :tasks
   belongs_to :task_list
 
   validates :name, presence: true

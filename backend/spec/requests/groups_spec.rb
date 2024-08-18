@@ -68,7 +68,7 @@ RSpec.describe 'Groups', type: :request do
     it 'deletes a group' do
       delete "/groups/#{group.id}", headers: @auth_headers
       expect(response).to have_http_status(:ok)
-      expect(Group.exists?(group.id)).to be_falsey
+      expect(Group.where(id: group.id)).not_to exist
     end
 
     it 'returns an error when deleting a non-existent group' do

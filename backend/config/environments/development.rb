@@ -12,7 +12,7 @@ Rails.application.configure do
   config.eager_load = false
 
   config.log_level = :debug
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', 'custom.log'))
+  config.logger = ActiveSupport::Logger.new(Rails.root.join("log/custom.log"))
   config.logger.formatter = proc do |severity, datetime, progname, msg|
     change_color = "\e[38;5;234m"
     reset_color = "\e[0m"
