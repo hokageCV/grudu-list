@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_181413) do
     t.integer "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "task_list_id", null: false
+    t.integer "task_list_id", default: 1, null: false
     t.index ["owner_id"], name: "index_tasks_on_owner_id"
     t.index ["task_list_id"], name: "index_tasks_on_task_list_id"
   end
