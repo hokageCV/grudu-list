@@ -15,5 +15,5 @@ Rails.application.routes.draw do
   end
 
   get 'me', to: 'current_user#index'
-  get "up" => "rails/health#show", as: :rails_health_check
+  get "up" => 'health#index', as: :rails_health_check
 end
