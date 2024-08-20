@@ -68,8 +68,7 @@
     "workbench.editor.tabSizing": "fit",
 
     // files
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 500,
+    "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
 
     // diff editor
