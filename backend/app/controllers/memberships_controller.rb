@@ -1,5 +1,11 @@
 class MembershipsController < ApplicationController
-  before_action :set_group, only: [:create, :destroy]
+  before_action :set_group, only: [:index, :create, :destroy]
+
+  def index
+    @memberships = @group.memberships
+
+    render json: @memberships
+  end
 
   def create
     @membership = @group.memberships.new(user_id: params[:user_id])
@@ -12,7 +18,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    @membership = @group.membership.find_by(user_id: params[:user_id])
+    @membership = @group.memberships.find_by(user_id: params[:id])
 
     if @membership&.destroy
       render json: { message: 'User successfully removed from group.' }, status: :ok

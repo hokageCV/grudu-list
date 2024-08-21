@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'TaskLists', type: :request do
   let(:user) { create(:user) }
   let(:group) { create(:group, owner: user) }
-  let(:task_list) { create(:task_list, name: 'Existing Task List', group: group) }
+  let(:task_list) { create(:task_list, name: 'Existing Task List', group:) }
 
   before do
     sign_in_user(user)
@@ -11,7 +11,7 @@ RSpec.describe 'TaskLists', type: :request do
 
   describe 'GET /groups/:group_id/task_lists' do
     before do
-      create_list(:task_list, 3, group: group)
+      create_list(:task_list, 3, group:)
       get "/groups/#{group.id}/task_lists", headers: @auth_headers
     end
 
@@ -67,7 +67,7 @@ RSpec.describe 'TaskLists', type: :request do
     it 'deletes a task list' do
       delete "/groups/#{group.id}/task_lists/#{task_list.id}", headers: @auth_headers
       expect(response).to have_http_status(:ok)
-      expect(TaskList.exists?(task_list.id)).to be_falsey
+      expect(TaskList).not_to exist(task_list.id)
     end
 
     it 'returns an error when deleting a non-existent task list' do

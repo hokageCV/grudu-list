@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :groups do
     get 'members', to: 'groups#members'
 
-    resources :memberships, only: [:create, :destroy]
+    resources :memberships, only: [:index, :create, :destroy]
     resources :task_lists, only: [:index, :create, :show, :update, :destroy]
   end
 

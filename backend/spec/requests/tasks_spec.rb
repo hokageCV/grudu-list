@@ -4,7 +4,7 @@ RSpec.describe 'Tasks', type: :request do
   let(:user) { create(:user, email: 'shoyo@gmail.com') }
   let(:user2) { create(:user, email: 'user2@example.com') }
   let(:task_list) { create(:task_list) }
-  let(:task) { create(:task, owner: user, task_list: task_list) }
+  let(:task) { create(:task, owner: user, task_list:) }
 
   before do
     sign_in_user(user)
@@ -12,7 +12,7 @@ RSpec.describe 'Tasks', type: :request do
 
   describe 'GET /tasks' do
     before do
-      create_list(:task, 3, owner: user, task_list: task_list)
+      create_list(:task, 3, owner: user, task_list:)
       get '/tasks', headers: @auth_headers
     end
 
@@ -69,7 +69,7 @@ RSpec.describe 'Tasks', type: :request do
     it 'deletes a task' do
       delete "/tasks/#{task.id}", headers: @auth_headers
       expect(response).to have_http_status(:ok)
-      expect(Task.exists?(task.id)).to be_falsey
+      expect(Task).not_to exist(task.id)
     end
 
     it 'returns an error when deleting a non-existent task' do
