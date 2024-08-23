@@ -1,4 +1,4 @@
-import HomePage from '../components/Home';
+import About from '@/components/About';
 
 export default function Home() {
   return (
@@ -6,7 +6,7 @@ export default function Home() {
       <div className='hero min-h-screen bg-base-200'>
         <div className='hero-content text-center'>
           <div className='max-w-md'>
-            <HomePage/>
+            <About/>
           </div>
         </div>
       </div>
