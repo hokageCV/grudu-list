@@ -11,9 +11,10 @@ Made with Ruby on Rails API with sqlite as database.
 Prerequisite
 - ruby 3.3.4
 
-Then go to backend directory:
+Go to backend directory:
 - `gem install bundler` to update bundler
 - `bundle install` to install gems
+- `rails db:migrate` to run all migrations
 - `rails server` to start the server
 
 ## Frontend
