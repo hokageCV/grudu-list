@@ -20,7 +20,7 @@ export default function Signup() {
 }
 
 function SignupForm() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setIsLoading] = useState(false);
 
@@ -30,7 +30,7 @@ function SignupForm() {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: async (formData: { username: string; email: string; password: string }) => {
+    mutationFn: async (formData: { name: string; email: string; password: string }) => {
       const res = await fetch('http://127.0.0.1:3001/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -47,6 +47,7 @@ function SignupForm() {
       const accessToken = headers.get('access-token') || '';
       const uid = headers.get('uid') || '';
       const data = await res.json();
+      console.log("Data1st:", data);
 
       return { data, client, accessToken, uid };
     },
@@ -59,9 +60,9 @@ function SignupForm() {
       setIsLoggedIn(true);
 
       setUser({
-        name: data.name || 'Unknown',
+        name: data.data.name || 'Unknown',
         email: formData.email,
-        id: data.id || 'Unknown',
+        id: data.data.id || 'Unknown',
         uid,
         client,
         accessToken
@@ -95,9 +96,9 @@ function SignupForm() {
             className="grow"
             placeholder="Username"
             required
-            value={formData.username}
+            value={formData.name}
             onChange={(e) =>
-              setFormData((prevFormData) => ({ ...prevFormData, username: e.target.value }))
+              setFormData((prevFormData) => ({ ...prevFormData, name: e.target.value }))
             }
           />
         </label>
