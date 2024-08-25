@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/context/authStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { BASE_URL } from '../../../../constants';
 
 export default function Signout() {
   const { setIsLoggedIn } = useAuthStore();
@@ -9,7 +10,7 @@ export default function Signout() {
 
   useEffect(() => {
     const logout = async () => {
-      await fetch('http://127.0.0.1:3001/auth/sign_out', {
+      await fetch(`${BASE_URL}/auth/sign_out`, {
         method: 'POST',
         credentials: 'include',
       });
