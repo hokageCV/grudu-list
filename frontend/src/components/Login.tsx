@@ -3,11 +3,7 @@ import { useAuthStore, useUserStore } from '../context/authStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query';
 import { BASE_URL } from '../../constants';
 
 const queryClient = new QueryClient();
@@ -22,12 +18,9 @@ export default function Login() {
 
 function LoginForm() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-
-  const setIsLoggedIn = useAuthStore((state)=>state.setIsLoggedIn);
-  const setUser = useUserStore((state)=>state.setUser);
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const setUser = useUserStore((state) => state.setUser);
 
   const router = useRouter();
 
@@ -54,7 +47,6 @@ function LoginForm() {
       return { data, client, accessToken, uid };
     },
     onSuccess: ({ data, client, accessToken, uid }) => {
-
       setIsLoggedIn(true);
       setUser({
         name: data.data.name || 'Unknown',
@@ -62,28 +54,21 @@ function LoginForm() {
         id: data.data.id || 'Unknown',
         uid,
         client,
-        accessToken
+        accessToken,
       });
 
       router.push('/home');
-    },
-    onError: (error: any) => {
-      setError(error.message);
     },
   });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
     mutation.mutate(formData);
-    setLoading(false);
   };
 
   return (
     <section className="h-screen flex flex-col justify-center items-center">
-      {error && <p className="text-red-600 mb-4">{error}</p>}
+      {mutation.isError && <p className="text-red-600 mb-4">{mutation.error?.message}</p>}
 
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-80">
         <label className="input input-bordered flex items-center gap-2 w-full">
@@ -94,7 +79,7 @@ function LoginForm() {
             placeholder="Email"
             required
             value={formData.email}
-            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
           />
         </label>
         <label className="input input-bordered flex items-center gap-2 w-full">
@@ -105,14 +90,14 @@ function LoginForm() {
             placeholder="Password"
             required
             value={formData.password}
-            onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
           />
         </label>
 
         <button type="submit" className="btn w-full">
           Login
         </button>
-        {loading && <span className="loading loading-spinner"></span>}
+        {mutation.isPending && <span className="loading loading-spinner"></span>}
       </form>
       <div className="divider w-full max-w-lg"></div>
       <div className="h-20 card rounded-box place-items-center">
@@ -141,8 +126,8 @@ const EmailInputIcon = () => {
       <path d='M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z' />
       <path d='M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z' />
     </svg>
-  )
-}
+  );
+};
 
 const PasswordInputIcon = () => {
   return (
@@ -158,5 +143,5 @@ const PasswordInputIcon = () => {
         clipRule='evenodd'
       />
     </svg>
-  )
-}
+  );
+};

@@ -1,15 +1,14 @@
 'use client';
 import React from 'react';
-import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'; // Import QueryClient and QueryClientProvider
+import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'; 
 import { useAuthStore } from '../context/authStore';
 import { useRouter } from 'next/navigation';
+import { BASE_URL } from '../../constants';
 
-// Create a QueryClient instance
 const queryClient = new QueryClient();
 
 export default function Navbar() {
   return (
-    // Wrap Navbar component with QueryClientProvider
     <QueryClientProvider client={queryClient}>
       <NavbarContent />
     </QueryClientProvider>
@@ -22,7 +21,7 @@ function NavbarContent() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch('http://127.0.0.1:3001/auth/sign_out', {
+      const res = await fetch(`${BASE_URL}/auth/sign_out`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -66,6 +65,8 @@ function NavbarContent() {
           </li>
         </ul>
       </div>
+      {mutation.isPending && <p>Logging out...</p>}
+      {mutation.isError && <p>Error: {mutation.error?.message}</p>}
     </div>
   );
 }
