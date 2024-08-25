@@ -43,7 +43,7 @@ function NavbarContent() {
   };
 
   return (
-    <div className="navbar bg-gray-500 text-white">
+    <div className="navbar bg-secondary text-white">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl" href='/home'>GRUDU LIST</a>
       </div>

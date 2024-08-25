@@ -68,9 +68,8 @@ function SignupForm() {
   };
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="h-screen flex flex-col justify-center items-center bg-background">
       {mutation.isError && <p className="text-red-600 mb-4">Signup failed</p>}
-
       <form onSubmit={create} className="flex flex-col items-center gap-4">
         <label className="input input-bordered flex items-center gap-2">
           <UsernameInputIcon />
@@ -117,7 +116,7 @@ function SignupForm() {
         </button>
         {mutation.isPending && <span className="loading loading-spinner"></span>}
       </form>
-      <div className="divider"></div>
+      <div className="divider w-36 mx-auto"></div>
       <div className="h-20 card rounded-box place-items-center">
         <p className="mt-2 text-center text-gray-600">
           Already have an account?&nbsp;
