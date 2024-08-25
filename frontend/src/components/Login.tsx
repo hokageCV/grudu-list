@@ -8,6 +8,7 @@ import {
   QueryClientProvider,
   useMutation
 } from '@tanstack/react-query';
+import { BASE_URL } from '../../constants';
 
 const queryClient = new QueryClient();
 
@@ -24,14 +25,15 @@ function LoginForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { setIsLoggedIn } = useAuthStore();
-  const { setUser } = useUserStore();
+
+  const setIsLoggedIn = useAuthStore((state)=>state.setIsLoggedIn);
+  const setUser = useUserStore((state)=>state.setUser);
 
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: async (formData: { email: string; password: string }) => {
-      const response = await fetch('http://127.0.0.1:3001/auth/sign_in', {
+      const response = await fetch(`${BASE_URL}/auth/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -52,10 +54,6 @@ function LoginForm() {
       return { data, client, accessToken, uid };
     },
     onSuccess: ({ data, client, accessToken, uid }) => {
-      console.log("Data:", data);
-      console.log("Client:", client);
-      console.log("Access Token:", accessToken);
-      console.log("UID:", uid);
 
       setIsLoggedIn(true);
       setUser({
