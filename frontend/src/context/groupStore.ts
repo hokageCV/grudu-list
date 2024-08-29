@@ -1,15 +1,23 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { UserType } from "./authStore";
 
 type OwnerType = {
     id: string;
     name: string;
 };
 
+type TaskListType = {
+    title: string;
+    tasks: string[];
+}
+
 export type GroupType = {
     id: string;
     name: string;
     owner: OwnerType;
+    tasklists: TaskListType[];
+    memberships: UserType[];
 };
 
 type GroupStore = {
