@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useQuery, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { GroupType } from "@/context/groupStore";
 import { BASE_URL } from "../../constants";
@@ -18,6 +18,8 @@ export default function AllGroups() {
 
 function AllGroupsContent() {
   const [user, setUser] = useState<any>(null);
+  const [groupToDelete, setGroupToDelete] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ function AllGroupsContent() {
     }
   }, []);
 
-  const { data: groups, isPending, isError } = useQuery({
+  const { data: groups, isPending, isError, refetch } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
       const response = await fetch(`${BASE_URL}/groups`, {
@@ -51,8 +53,50 @@ function AllGroupsContent() {
     enabled: !!user,
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (groupId: string) => {
+      const response = await fetch(`${BASE_URL}/groups/${groupId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          uid: user?.uid,
+          client: user?.client,
+          "access-token": user?.accessToken,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete group");
+      }
+
+      return groupId;
+    },
+    onSuccess: (deletedGroupId) => {
+      setIsModalOpen(false);
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Failed to delete group:", error);
+    },
+  });
+
   const handleEditClick = (groupId: string) => {
     router.push(`/group/edit/${groupId}`);
+  };
+
+  const handleDeleteClick = (groupId: string) => {
+    setGroupToDelete(groupId);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (groupToDelete) {
+      deleteMutation.mutate(groupToDelete);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
   };
 
   if (isPending) {
@@ -81,6 +125,15 @@ function AllGroupsContent() {
                   >
                     Edit
                   </button>
+                  {group.owner.id === user?.id && (
+                    <button
+                      className="btn btn-error"
+                      onClick={() => handleDeleteClick(group.id)}
+                      disabled={deleteMutation.isPending}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -88,6 +141,30 @@ function AllGroupsContent() {
         </div>
       ) : (
         <p>No groups created</p>
+      )}
+
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black text-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+            <p>Are you sure you want to delete this group?</p>
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                className="btn btn-backgroundOffset"
+                onClick={handleCancelDelete}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-error"
+                onClick={handleConfirmDelete}
+                disabled={deleteMutation.isPending}
+              >
+                {deleteMutation.isPending ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
