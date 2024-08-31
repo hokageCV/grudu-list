@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useUserGroups } from '@/hooks/useUserGroups';
 import { useGroupStore } from '@/context/groupStore';
+import { UserType } from '@/context/authStore';
 
 const queryClient = new QueryClient();
 
 const HomePage = () => {
-  const [user, setUser]:any = useState(null);
+  const [user, setUser] = useState<UserType|null>(null);
 
   const setGroups = useGroupStore((state) => state.setGroups);
   const { isLoading, isError, groupsData } = useUserGroups();

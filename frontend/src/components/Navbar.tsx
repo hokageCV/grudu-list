@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'; 
-import { useAuthStore } from '@/context/authStore';
+import { useAuthStore, UserType } from '@/context/authStore';
 import { useRouter } from 'next/navigation';
 import { BASE_URL } from '@/constant/constants';
 
@@ -18,7 +18,7 @@ export default function Navbar() {
 function NavbarContent() {
   const { setIsLoggedIn } = useAuthStore();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType|null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user-storage');

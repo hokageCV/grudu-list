@@ -1,9 +1,10 @@
 "use client";
-import { useGroupStore } from '@/context/groupStore';
+import { GroupType, useGroupStore } from '@/context/groupStore';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@/constant/constants';
+import { UserType } from '@/context/authStore';
 
 const queryClient = new QueryClient();
 
@@ -17,8 +18,8 @@ export default function CreateGroup() {
 
 function CreateGroupForm() {
   const [name, setName] = useState("");
-  const [user, setUser] = useState<any>(null);
-  const [groups, setGroupsFromLocalStorage] = useState<any[]>([]);
+  const [user, setUser] = useState<UserType|null>(null);
+  const [groups, setGroupsFromLocalStorage] = useState<GroupType[]>([]);
   const setGroups = useGroupStore((state) => state.setGroups);
   const router = useRouter();
 
@@ -43,9 +44,9 @@ function CreateGroupForm() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'uid': user.uid,
-          'client': user.client,
-          'access-token': user.accessToken,
+          'uid': user?.uid || '',
+          'client': user?.client || '',
+          'access-token': user?.accessToken || '',
         },
         body: JSON.stringify({ name: groupName }),
       });

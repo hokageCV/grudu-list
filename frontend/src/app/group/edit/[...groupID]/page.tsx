@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { BASE_URL } from "@/constant/constants";
+import { UserType } from "@/context/authStore";
 
 const queryClient = new QueryClient();
 
 function EditGroupComponent() {
   const [groupName, setGroupName] = useState<string>("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType|null>(null);
   const router = useRouter();
   const { groupID } = useParams();
 
@@ -28,9 +29,9 @@ function EditGroupComponent() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "uid": user.uid,
-            "access-token": user.accessToken,
-            "client": user.client,
+            "uid": user?.uid || '',
+            "access-token": user?.accessToken || '',
+            "client": user?.client || '',
           },
         });
 
@@ -57,9 +58,9 @@ function EditGroupComponent() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "uid": user.uid,
-          "access-token": user.accessToken,
-          "client": user?.client,
+            "uid": user?.uid || '',
+            "access-token": user?.accessToken || '',
+            "client": user?.client || '',
         },
         body: JSON.stringify({ name: updatedName }),
       });

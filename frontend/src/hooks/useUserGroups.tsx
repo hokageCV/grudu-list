@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BASE_URL } from '@/constant/constants';
+import { UserType } from '@/context/authStore';
 
 const fetchGroups = async (user: any) => {
   const response = await fetch(`${BASE_URL}/groups`, {
@@ -21,7 +22,7 @@ const fetchGroups = async (user: any) => {
 };
 
 export const useUserGroups = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType|null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem('user-storage');

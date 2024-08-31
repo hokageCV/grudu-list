@@ -5,6 +5,7 @@ import { useQuery, useMutation, QueryClient, QueryClientProvider } from "@tansta
 import { useRouter } from "next/navigation";
 import { GroupType } from "@/context/groupStore";
 import { BASE_URL } from "@/constant/constants";
+import { UserType } from "@/context/authStore";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,7 @@ export default function AllGroups() {
 }
 
 function AllGroupsContent() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType|null>(null);
   const [groupToDelete, setGroupToDelete] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -36,10 +37,10 @@ function AllGroupsContent() {
       const response = await fetch(`${BASE_URL}/groups`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          uid: user?.uid,
-          client: user?.client,
-          "access-token": user?.accessToken,
+          'Content-Type': 'application/json',
+          'uid': user?.uid || '',
+          'client': user?.client || '',
+          'access-token': user?.accessToken || '',
         },
       });
 
@@ -58,10 +59,10 @@ function AllGroupsContent() {
       const response = await fetch(`${BASE_URL}/groups/${groupId}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json",
-          uid: user?.uid,
-          client: user?.client,
-          "access-token": user?.accessToken,
+          'Content-Type': 'application/json',
+          'uid': user?.uid || '',
+          'client': user?.client || '',
+          'access-token': user?.accessToken || '',
         },
       });
 
