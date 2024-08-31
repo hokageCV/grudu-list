@@ -1,9 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'; 
-import { useAuthStore } from '../context/authStore';
+import { useAuthStore } from '@/context/authStore';
 import { useRouter } from 'next/navigation';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '@/constant/constants';
 
 const queryClient = new QueryClient();
 

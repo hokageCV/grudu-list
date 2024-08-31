@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
-import { BASE_URL } from "../../../../../constants";
+import { BASE_URL } from "@/constant/constants";
 
 const queryClient = new QueryClient();
 

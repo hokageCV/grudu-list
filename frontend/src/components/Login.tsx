@@ -1,10 +1,10 @@
 'use client';
-import { useAuthStore, useUserStore } from '../context/authStore';
+import { useAuthStore, useUserStore } from '@/context/authStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '@/constant/constants';
 
 const queryClient = new QueryClient();
 

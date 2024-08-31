@@ -3,7 +3,7 @@ import { useGroupStore } from '@/context/groupStore';
 import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '@/constant/constants';
 
 const queryClient = new QueryClient();
 
@@ -56,10 +56,7 @@ function CreateGroupForm() {
     },
     onSuccess: (data) => {
       const updatedGroups = [...groups, data];
-      console.log("U_G",updatedGroups);
       setGroups(updatedGroups);
-
-      // localStorage.setItem('groups-storage', JSON.stringify(updatedGroups));
 
       router.push('/group');
     },

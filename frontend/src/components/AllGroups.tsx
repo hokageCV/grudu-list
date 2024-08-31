@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { GroupType } from "@/context/groupStore";
-import { BASE_URL } from "../../constants";
+import { BASE_URL } from "@/constant/constants";
 
 const queryClient = new QueryClient();
 

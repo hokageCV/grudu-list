@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/context/authStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { BASE_URL } from '../../../../constants';
+import { BASE_URL } from '../../../constant/constants';
 
 export default function Signout() {
   const { setIsLoggedIn } = useAuthStore();

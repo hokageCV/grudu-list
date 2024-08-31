@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '@/constant/constants';
 
 const fetchGroups = async (user: any) => {
   const response = await fetch(`${BASE_URL}/groups`, {
