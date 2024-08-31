@@ -132,42 +132,55 @@ function AllTaskListsContent() {
             >
               <div>
                 {editTaskListId === taskList.id ? (
-                  <>
-                    <input
-                      type="text"
-                      value={newTaskListName}
-                      onChange={(e) => setNewTaskListName(e.target.value)}
-                      className="border rounded px-2 py-1 mb-2"
-                    />
+                <>
+                  <input
+                    type="text"
+                    value={newTaskListName}
+                    onChange={(e) => setNewTaskListName(e.target.value)}
+                    className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+                    placeholder="Enter new task list name"
+                  />
+                  
+                  <div className="flex space-x-3">
                     <button
                       onClick={() => editTaskListMutation.mutate({ taskListId: taskList.id, newName: newTaskListName })}
-                      className="bg-green-500 text-white px-4 py-1 rounded"
+                      className="bg-green-500 hover:bg-green-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditTaskListId(null)}
-                      className="bg-red-500 text-white px-4 py-1 rounded ml-2"
+                      className="bg-red-500 hover:bg-red-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
                     >
                       Cancel
                     </button>
-                  </>
+                  </div>
+                </>
                 ) : (
                   <>
-                    <h3 className="text-xl font-semibold mb-2 text-gray-800">{taskList.name}</h3>
-                    <p className="text-sm text-gray-600">Task List ID: {taskList.id}</p>
-                    <button
-                      onClick={() => handleEditTaskList(taskList.id, taskList.name)}
-                      className="bg-blue-500 text-white px-4 py-1 rounded mt-2"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteTaskList(taskList.id)}
-                      className="bg-red-500 text-white px-4 py-1 rounded mt-2 ml-2"
-                    >
-                      Delete
-                    </button>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{taskList.name}</h3>
+                    <p className="text-sm text-gray-500 mb-3">Task List ID: {taskList.id}</p>
+
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={() => router.push(`/tasklist/${taskList.id}`)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                      >
+                        View Tasks
+                      </button>
+                      <button
+                        onClick={() => handleEditTaskList(taskList.id, taskList.name)}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTaskList(taskList.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </>
                 )}
               </div>
