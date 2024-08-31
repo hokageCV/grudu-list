@@ -119,7 +119,12 @@ function AllGroupsContent() {
                 <h2 className="card-title">{group.name}</h2>
                 <p>Owner: {group.owner.name} (ID: {group.owner.id})</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View</button>
+                  <button 
+                    className="btn btn-primary"
+                    onClick={() => router.push(`/group/${group.id}`)}
+                  >
+                    View
+                  </button>
                   <button
                     className="btn btn-backgroundOffset"
                     onClick={() => handleEditClick(group.id)}
