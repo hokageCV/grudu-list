@@ -125,7 +125,7 @@ function AllTaskListsContent() {
       <CreateTaskList onTaskListCreated={refetch} />
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 cursor-pointer">
         {taskLists && taskLists.length > 0 ? (
-          taskLists.map((taskList: any) => (
+          taskLists.map((taskList: {id:string,name:string}) => (
             <div
               key={taskList.id}
               className="bg-white shadow-lg rounded-lg border border-gray-200 p-6 flex flex-col justify-between"
