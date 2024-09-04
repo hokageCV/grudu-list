@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
-  resources :users, only: [] do
+  resources :users, only: [:show] do
     get 'groups', to: 'users#groups'
   end
 
