@@ -4,7 +4,8 @@ class TaskListsController < ApplicationController
   before_action :authorize_user!, only: [:show, :update, :destroy]
 
   def index
-    @task_lists = TaskList.all
+    @group = Group.find(params[:group_id])
+    @task_lists = @group.task_lists.all
 
     render json: @task_lists
   end
