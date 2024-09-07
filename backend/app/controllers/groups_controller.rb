@@ -40,8 +40,7 @@ class GroupsController < ApplicationController
   end
 
   def members
-    @members = @group.members
-
+    @members = @group.members + [@group.owner]
     render json: UserSerializer.new(@members).serializable_hash[:data].map { |member| member[:attributes] }, status: :ok
   end
 

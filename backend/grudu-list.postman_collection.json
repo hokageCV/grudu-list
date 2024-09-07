@@ -17,14 +17,36 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// set headers for auth",
 									"const headersToFind = new Set(['uid', 'access-token', 'client']); ",
-									"",
 									"pm.response.headers.each(header => {",
 									"    const headerName = header.key.toLowerCase();",
 									"    if (headersToFind.has(headerName)) {",
 									"        pm.collectionVariables.set(headerName, header.value);",
 									"    }",
-									"});"
+									"});",
+									"",
+									"// set current user id to previous user id",
+									"let previous_user_id = pm.collectionVariables.get('user_id')",
+									"pm.collectionVariables.set('previous_user_id', previous_user_id);",
+									"",
+									"// set new current_user id",
+									"let response = pm.response.json();",
+									"let user_id = response.data.id;",
+									"pm.collectionVariables.set('user_id', user_id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" let email = pm.collectionVariables.get('user_email');\r",
+									" let name = email.split('@')[0];\r",
+									" pm.collectionVariables.set('user_name', name);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -42,7 +64,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"kageyama\",\n    \"email\": \"kageyama@gmail.com\",\n    \"password\": \"Test@123\"\n}",
+							"raw": "{\n    \"name\": \"{{user_name}}\",\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{password}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -70,14 +92,24 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// set headers for auth",
 									"const headersToFind = new Set(['uid', 'access-token', 'client']); ",
-									"",
 									"pm.response.headers.each(header => {",
 									"    const headerName = header.key.toLowerCase();",
 									"    if (headersToFind.has(headerName)) {",
 									"        pm.collectionVariables.set(headerName, header.value);",
 									"    }",
-									"});"
+									"});",
+									"",
+									"// set current user id to previous user id",
+									"let previous_user_id = pm.collectionVariables.get('user_id')",
+									"pm.collectionVariables.set('previous_user_id', previous_user_id);",
+									"",
+									"// set new current_user id",
+									"let response = pm.response.json();",
+									"let user_id = response.data.id;",
+									"pm.collectionVariables.set('user_id', user_id);",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -87,7 +119,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									" let email = pm.collectionVariables.get('user_email');\r",
+									" let name = email.split('@')[0];\r",
+									" pm.collectionVariables.set('user_name', name);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -99,7 +133,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"kageyama@gmail.com\",\n    \"password\": \"Test@123\"   \n}",
+							"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{password}}\"   \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -383,7 +417,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"user_id\": 2\r\n}",
+									"raw": "{\r\n    \"user_id\": {{previous_user_id}}\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -491,7 +525,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"this is another task list\"\n}",
+									"raw": "{\n\t\"name\": \"this is another task list 22\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -696,12 +730,26 @@
 				},
 				{
 					"name": "group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"let group_id = response.id;\r",
+									"pm.collectionVariables.set('group_id', group_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"dictator king\"\r\n}",
+							"raw": "{\r\n\t\"name\": \"super setter club\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -866,13 +914,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/users/11",
+							"raw": "{{base_url}}/users/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"users",
-								"11"
+								"1"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -995,6 +1043,26 @@
 			"value": "http://127.0.0.1:3001"
 		},
 		{
+			"key": "user_email",
+			"value": "shoyo@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "===========",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_name",
+			"value": "",
+			"type": "string"
+		},
+		{
 			"key": "uid",
 			"value": "0",
 			"type": "string"
@@ -1007,6 +1075,11 @@
 		{
 			"key": "access-token",
 			"value": "lfkaisdjhfaslodik",
+			"type": "string"
+		},
+		{
+			"key": "previous_user_id",
+			"value": "",
 			"type": "string"
 		},
 		{
