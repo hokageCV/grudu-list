@@ -121,7 +121,15 @@ function AllTaskListsContent() {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">All Task Lists</h2>
+      <div className="sm:flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold text-gray-200">All Task Lists</h2>
+        <button 
+          className="px-4 py-2 bg-blue-600 text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
+          onClick={()=>router.push(`/members/add/${groupID}`)}
+        >
+          Add New Member
+        </button>
+      </div>
       <CreateTaskList onTaskListCreated={refetch} />
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 cursor-pointer">
         {taskLists && taskLists.length > 0 ? (
