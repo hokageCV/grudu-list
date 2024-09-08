@@ -66,36 +66,67 @@ function NavbarContent() {
   };
 
   return (
-    <div className="navbar bg-secondary text-white">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl" href='/home'>GRUDU LIST</a>
+    <div>
+      <div className="navbar bg-secondary text-white sm:hidden">
+        <div className="flex-1">
+          <a className="btn btn-ghost text-xl" href='/home'>GRUDU LIST</a>
+        </div>
+        <div className="flex-none">
+          <ul className="menu menu-horizontal px-2">
+            <li>
+              <a onClick={() => router.push('/group/create')} className="cursor-pointer">
+                Create Group
+              </a>
+            </li>
+            <li className="hidden sm:block"><a onClick={() => router.push('/group')}>My Groups</a></li>
+            <li>
+              <details>
+                <summary>More</summary>
+                <ul className="bg-base-100 rounded-t-none p-2">
+                  <li><a>Profile</a></li>
+                  <li className="sm:hidden"><a onClick={() => router.push('/group')}>My Groups</a></li>
+                  <li>
+                    <a onClick={handleSignout} className="cursor-pointer">
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+        {mutation.isPending && <p>Logging out...</p>}
+        {mutation.isError && <p>Error: {mutation.error?.message}</p>}
       </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-2">
+
+      <div className="hidden sm:flex sm:flex-col sm:w-full sm:h-full bg-secondary text-white">
+        <div className="p-4">
+          <a className="text-2xl font-bold block mb-6" href='/home'>
+            GRUDU LIST
+          </a>
+          <hr className="border-t-2 border-gray-500 mb-4"/>
+        </div>
+        <ul className="menu flex flex-col space-y-4 px-4">
           <li>
-            <a onClick={()=>router.push('/group/create')} className='cursor-pointer'>
+            <a onClick={() => router.push('/group/create')} className="cursor-pointer">
               Create Group
             </a>
           </li>
-          <li className='hidden sm:block'><a onClick={()=>router.push('/group')}>My Groups</a></li>
           <li>
-            <details>
-              <summary>More</summary>
-              <ul className="bg-base-100 rounded-t-none p-2">
-                <li><a>Profile</a></li>
-                <li className="sm:hidden"><a onClick={()=>router.push('/group')}>My Groups</a></li>
-                <li>
-                  <a onClick={handleSignout} className="cursor-pointer">
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </details>
+            <a onClick={() => router.push('/group')}>My Groups</a>
+          </li>
+          <li>
+            <a className="cursor-pointer">Profile</a>
+          </li>
+          <li>
+            <a onClick={handleSignout} className="cursor-pointer">
+              Logout
+            </a>
           </li>
         </ul>
+        {mutation.isPending && <p className="p-4">Logging out...</p>}
+        {mutation.isError && <p className="p-4 text-red-500">Error: {mutation.error?.message}</p>}
       </div>
-      {mutation.isPending && <p>Logging out...</p>}
-      {mutation.isError && <p>Error: {mutation.error?.message}</p>}
     </div>
   );
 }

@@ -71,7 +71,7 @@ function CreateGroupForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[90vh] bg-backgroundOffset p-4">
+    <div className="flex flex-col items-center justify-center min-h-[90vh] sm:min-h-[100vh] bg-backgroundOffset p-4">
       <h1 className="text-2xl font-bold mb-4">Enter the Group Name</h1>
       <input
         type="text"

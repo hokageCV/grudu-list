@@ -7,7 +7,7 @@ import { UserType } from '@/context/authStore';
 const queryClient = new QueryClient();
 
 const HomePage = () => {
-  const [user, setUser] = useState<UserType|null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
   const setGroups = useGroupStore((state) => state.setGroups);
   const { isLoading, isError, groupsData } = useUserGroups();
@@ -23,7 +23,7 @@ const HomePage = () => {
   useEffect(() => {
     if (user && groupsData) {
       const userGroups = groupsData.filter(
-        (group: {owner:{id:string}}) => group.owner.id === user?.id
+        (group: { owner: { id: string } }) => group.owner.id === user?.id
       );
       setGroups(userGroups);
     }
@@ -31,7 +31,7 @@ const HomePage = () => {
 
   if (isLoading) {
     return (
-      <div className="h-[90vh] flex justify-center items-center bg-backgroundOffset">
+      <div className="h-[90vh] sm:h-[100vh] flex justify-center items-center bg-backgroundOffset">
         <div className="text-center">
           <div className="text-2xl font-semibold text-primary">Loading...</div>
         </div>
@@ -41,18 +41,22 @@ const HomePage = () => {
 
   if (isError) {
     return (
-      <div className="h-[90vh] flex justify-center items-center bg-backgroundOffset">
+      <div className="h-[90vh] sm:h-[100vh] flex justify-center items-center bg-backgroundOffset">
         <div className="text-center">
           <div className="text-2xl font-semibold text-red-600">Error</div>
-          <div className="mt-2 text-sm text-secondary">There was an error loading your groups</div>
+          <div className="mt-2 text-sm text-secondary">
+            There was an error loading your groups
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[90vh] flex justify-center items-center bg-backgroundOffset">
-      <h1 className="text-4xl font-bold text-primary">Welcome {user?.name}</h1>
+    <div className="h-[90vh] sm:h-[100vh] flex justify-center items-center bg-backgroundOffset">
+      <h1 className="text-4xl font-bold text-primary">
+        Welcome {user?.name}
+      </h1>
     </div>
   );
 };
@@ -60,7 +64,7 @@ const HomePage = () => {
 export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
-      <HomePage/>
+      <HomePage />
     </QueryClientProvider>
   );
 }

@@ -124,8 +124,8 @@ function AddMembersContent() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="w-full sm:w-2/3 lg:w-1/2 p-6 bg-gray-800 rounded-lg">
+    <div className="flex justify-center items-center min-h-[88vh] sm:min-h-screen bg-gray-900">
+      <div className="w-full sm:w-2/3 lg:w-1/2 p-6 bg-gray-800 m-2 rounded-lg">
         <div className="sm:flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-200">Add User to Group</h2>
           <button
