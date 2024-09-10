@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/context/authStore";
-import Navbar from "@/components/Navbar";
 import Home from "@/components/Home";
 
 export default function Page() {
@@ -21,22 +20,11 @@ export default function Page() {
       console.log("User email not found, redirecting to login...");
       router.push("/");
     }
-  }, []);
+  }, [router]);
 
   return (
     <div className="h-screen">
-      <div className="sm:hidden">
-        <Navbar />
-        <Home />
-      </div>
-      <div className="hidden sm:flex h-full">
-        <div className="w-1/6 h-full bg-secondary">
-          <Navbar />
-        </div>
-        <div className="w-5/6 h-full overflow-y-auto">
-          <Home />
-        </div>
-      </div>
+      <Home/>
     </div>
   );
 }
