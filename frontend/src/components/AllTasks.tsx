@@ -4,7 +4,6 @@ import { useMutation, useQuery, QueryClient, QueryClientProvider } from "@tansta
 import { useParams } from "next/navigation";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
-import Navbar from "./Navbar";
 
 const queryClient = new QueryClient();
 
@@ -146,172 +145,84 @@ function AllTasksContent() {
 
   return (
     <div className="h-screen">
-      {/* For small screens */}
-      <div className="sm:hidden">
-        <Navbar />
-        <div className="flex justify-center p-4">
-          <div className="w-full max-w-3xl">
-            <div className="mb-4">
-              <input
-                type="text"
-                value={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                placeholder="Enter task name"
-              />
-              <button
-                onClick={handleCreateTask}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition"
-              >
-                Create Task
-              </button>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Tasks</h3>
-              {isLoading && <p>Loading tasks...</p>}
-              {isError && <p>Failed to load tasks.</p>}
-              <ul>
-                {tasks
-                  ?.filter((task: { id: string; name: string; task_list_id: number; completed: boolean }) => task.task_list_id === Number(taskID[0]))
-                  .sort((a: { completed: boolean }, b: { completed: boolean }) => Number(a.completed) - Number(b.completed))
-                  .map((task: { id: string; name: string; completed: boolean }) => (
-                    <li key={task.id} className="border-b border-gray-300 py-2 flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={task.completed}
-                          onChange={() => handleCheckboxChange(task)}
-                          className="mr-2"
-                        />
-                        {editTaskId === task.id ? (
-                          <input
-                            type="text"
-                            value={editTaskName}
-                            onChange={(e) => setEditTaskName(e.target.value)}
-                            className="border border-gray-300 rounded-lg px-2 py-1"
-                            autoFocus
-                          />
-                        ) : (
-                          <span>{task.name}</span>
-                        )}
-                      </div>
-                      <div className="flex space-x-2">
-                        {editTaskId === task.id ? (
-                          <button
-                            onClick={() => handleEditTaskSave(task.id, editTaskName, task.completed)}
-                            className="bg-green-500 hover:bg-green-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                          >
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setEditTaskId(task.id);
-                              setEditTaskName(task.name);
-                            }}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                          >
-                            Edit
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleDeleteTask(task.id)}
-                          className="bg-red-600 hover:bg-red-700 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+      {/* Task input and creation */}
+      <div className="flex justify-center p-4">
+        <div className="w-full max-w-3xl">
+          <div className="mb-4">
+            <input
+              type="text"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Enter task name"
+            />
+            <button
+              onClick={handleCreateTask}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition"
+            >
+              Create Task
+            </button>
           </div>
-        </div>
-      </div>
 
-      {/* For larger screens */}
-      <div className="hidden sm:flex h-full">
-        <div className="w-1/6 h-full bg-secondary">
-          <Navbar />
-        </div>
-        <div className="w-5/6 h-full p-4">
-          <div className="w-full max-w-3xl">
-            <div className="mb-4">
-              <input
-                type="text"
-                value={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                placeholder="Enter task name"
-              />
-              <button
-                onClick={handleCreateTask}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition"
-              >
-                Create Task
-              </button>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Tasks</h3>
-              {isLoading && <p>Loading tasks...</p>}
-              {isError && <p>Failed to load tasks.</p>}
-              <ul>
-                {tasks
-                  ?.filter((task: { id: string; name: string; task_list_id: number; completed: boolean }) => task.task_list_id === Number(taskID[0]))
-                  .sort((a: { completed: boolean }, b: { completed: boolean }) => Number(a.completed) - Number(b.completed))
-                  .map((task: { id: string; name: string; completed: boolean }) => (
-                    <li key={task.id} className="border-b border-gray-300 py-2 flex items-center justify-between">
-                      <div className="flex items-center">
+          {/* Task list */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Tasks</h3>
+            {isLoading && <p>Loading tasks...</p>}
+            {isError && <p>Failed to load tasks.</p>}
+            <ul>
+              {tasks
+                ?.filter((task: { id: string; name: string; task_list_id: number; completed: boolean }) => task.task_list_id === Number(taskID[0]))
+                .sort((a: { completed: boolean }, b: { completed: boolean }) => Number(a.completed) - Number(b.completed))
+                .map((task: { id: string; name: string; completed: boolean }) => (
+                  <li key={task.id} className="border-b border-gray-300 py-2 flex items-center justify-between">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={task.completed}
+                        onChange={() => handleCheckboxChange(task)}
+                        className="mr-2"
+                      />
+                      {editTaskId === task.id ? (
                         <input
-                          type="checkbox"
-                          checked={task.completed}
-                          onChange={() => handleCheckboxChange(task)}
-                          className="mr-2"
+                          type="text"
+                          value={editTaskName}
+                          onChange={(e) => setEditTaskName(e.target.value)}
+                          className="border border-gray-300 rounded-lg px-2 py-1"
+                          autoFocus
                         />
-                        {editTaskId === task.id ? (
-                          <input
-                            type="text"
-                            value={editTaskName}
-                            onChange={(e) => setEditTaskName(e.target.value)}
-                            className="border border-gray-300 rounded-lg px-2 py-1"
-                            autoFocus
-                          />
-                        ) : (
-                          <span>{task.name}</span>
-                        )}
-                      </div>
-                      <div className="flex space-x-2">
-                        {editTaskId === task.id ? (
-                          <button
-                            onClick={() => handleEditTaskSave(task.id, editTaskName, task.completed)}
-                            className="bg-green-500 hover:bg-green-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                          >
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setEditTaskId(task.id);
-                              setEditTaskName(task.name);
-                            }}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                          >
-                            Edit
-                          </button>
-                        )}
+                      ) : (
+                        <span>{task.name}</span>
+                      )}
+                    </div>
+                    <div className="flex space-x-2">
+                      {editTaskId === task.id ? (
                         <button
-                          onClick={() => handleDeleteTask(task.id)}
-                          className="bg-red-600 hover:bg-red-700 text-white font-medium px-3 py-1 rounded-lg shadow transition"
+                          onClick={() => handleEditTaskSave(task.id, editTaskName, task.completed)}
+                          className="bg-green-500 hover:bg-green-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
                         >
-                          Delete
+                          Save
                         </button>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setEditTaskId(task.id);
+                            setEditTaskName(task.name);
+                          }}
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
+                        >
+                          Edit
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDeleteTask(task.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-3 py-1 rounded-lg shadow transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>
