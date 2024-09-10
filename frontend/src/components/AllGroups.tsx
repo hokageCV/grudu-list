@@ -7,6 +7,9 @@ import { GroupType } from "@/context/groupStore";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
 
+import EditIcon from "@/assets/svgs/edit.svg";
+import DeleteIcon from "@/assets/svgs/delete.svg"; 
+
 const queryClient = new QueryClient();
 
 export default function AllGroups() {
@@ -18,7 +21,7 @@ export default function AllGroups() {
 }
 
 function AllGroupsContent() {
-  const [user, setUser] = useState<UserType|null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [groupToDelete, setGroupToDelete] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -37,10 +40,10 @@ function AllGroupsContent() {
       const response = await fetch(`${BASE_URL}/groups`, {
         method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'uid': user?.uid || '',
-          'client': user?.client || '',
-          'access-token': user?.accessToken || '',
+          "Content-Type": "application/json",
+          uid: user?.uid || "",
+          client: user?.client || "",
+          "access-token": user?.accessToken || "",
         },
       });
 
@@ -59,10 +62,10 @@ function AllGroupsContent() {
       const response = await fetch(`${BASE_URL}/groups/${groupId}`, {
         method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          'uid': user?.uid || '',
-          'client': user?.client || '',
-          'access-token': user?.accessToken || '',
+          "Content-Type": "application/json",
+          uid: user?.uid || "",
+          client: user?.client || "",
+          "access-token": user?.accessToken || "",
         },
       });
 
@@ -114,30 +117,35 @@ function AllGroupsContent() {
       {groups && groups.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {groups.map((group: GroupType) => (
-            <div key={group.id} className="card bg-neutral text-neutral-content w-full shadow-xl">
+            <div
+              key={group.id}
+              className="card bg-neutral text-neutral-content w-full shadow-xl cursor-pointer transition-transform duration-200 ease-in-out transform hover:scale-[1.01] hover:shadow-md hover:shadow-primary/800"
+              onClick={() => router.push(`/group/${group.id}`)}
+            >
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{group.name}</h2>
                 <p>Owner: {group.owner.name} (ID: {group.owner.id})</p>
-                <div className="card-actions justify-end">
-                  <button 
-                    className="btn btn-primary"
-                    onClick={() => router.push(`/group/${group.id}`)}
-                  >
-                    View
-                  </button>
+                <div className="card-actions justify-center space-x-4 mt-4">
                   <button
-                    className="btn btn-backgroundOffset"
-                    onClick={() => handleEditClick(group.id)}
+                    className="btn btn-primary flex items-center justify-center"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditClick(group.id);
+                    }}
                   >
-                    Edit
+                    <EditIcon/>
                   </button>
+
                   {group.owner.id === user?.id && (
                     <button
-                      className="btn btn-error"
-                      onClick={() => handleDeleteClick(group.id)}
+                      className="btn btn-error flex items-center justify-center"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(group.id);
+                      }}
                       disabled={deleteMutation.isPending}
                     >
-                      Delete
+                      <DeleteIcon/>
                     </button>
                   )}
                 </div>
@@ -146,27 +154,20 @@ function AllGroupsContent() {
           ))}
         </div>
       ) : (
-        <p>No groups created</p>
+        <p>No groups available.</p>
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black text-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Deletion</h3>
             <p>Are you sure you want to delete this group?</p>
-            <div className="flex justify-end space-x-4 mt-4">
-              <button
-                className="btn btn-backgroundOffset"
-                onClick={handleCancelDelete}
-              >
-                Cancel
+            <div className="modal-action">
+              <button className="btn btn-error" onClick={handleConfirmDelete} disabled={deleteMutation.isPending}>
+                Yes, delete it
               </button>
-              <button
-                className="btn btn-error"
-                onClick={handleConfirmDelete}
-                disabled={deleteMutation.isPending}
-              >
-                {deleteMutation.isPending ? "Deleting..." : "Delete"}
+              <button className="btn" onClick={handleCancelDelete}>
+                Cancel
               </button>
             </div>
           </div>
