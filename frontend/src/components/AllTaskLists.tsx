@@ -9,6 +9,13 @@ import { useRouter } from "next/navigation";
 
 import EditIcon from "@/assets/svgs/edit.svg";
 import DeleteIcon from "@/assets/svgs/delete.svg"; 
+import Breadcrumbs from "./BreadCrumbs";
+
+const breadcrumbs = [
+  { label: 'Home', href: '/home' },
+  { label: 'Groups', href: '/group' },
+  { label: 'TaskLists', href: '' }
+];
 
 const queryClient = new QueryClient();
 
@@ -133,6 +140,7 @@ function AllTaskListsContent() {
           Add New Member
         </button>
       </div>
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
       <CreateTaskList onTaskListCreated={refetch} />
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {taskLists && taskLists.length > 0 ? (

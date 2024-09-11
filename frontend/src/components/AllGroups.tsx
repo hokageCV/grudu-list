@@ -9,6 +9,12 @@ import { UserType } from "@/context/authStore";
 
 import EditIcon from "@/assets/svgs/edit.svg";
 import DeleteIcon from "@/assets/svgs/delete.svg"; 
+import Breadcrumbs from "@/components/BreadCrumbs";
+
+const breadcrumbs = [
+  { label: 'Home', href: '/home' },
+  { label: 'Groups', href: '/group' }
+];
 
 const queryClient = new QueryClient();
 
@@ -114,6 +120,7 @@ function AllGroupsContent() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">All Groups</h1>
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
       {groups && groups.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {groups.map((group: GroupType) => (

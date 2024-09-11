@@ -7,6 +7,14 @@ import { UserType } from "@/context/authStore";
 
 import EditIcon from "@/assets/svgs/edit.svg";
 import DeleteIcon from "@/assets/svgs/delete.svg"; 
+import Breadcrumbs from "./BreadCrumbs";
+
+const breadcrumbs = [
+  { label: 'Home', href: '/home' },
+  { label: 'Groups', href: '/group' },
+  { label: 'TaskLists', href: '' },
+  { label: 'Tasks', href: '' }
+];
 
 const queryClient = new QueryClient();
 
@@ -150,6 +158,7 @@ function AllTasksContent() {
     <div className="h-screen">
       <div className="flex justify-center p-4">
         <div className="w-full max-w-3xl">
+        <Breadcrumbs breadcrumbs={breadcrumbs}/>
           <div className="mb-4">
             <input
               type="text"
