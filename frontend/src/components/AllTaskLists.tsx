@@ -7,6 +7,9 @@ import { useParams } from "next/navigation";
 import CreateTaskList from "@/components/CreateTaskList";
 import { useRouter } from "next/navigation";
 
+import EditIcon from "@/assets/svgs/edit.svg";
+import DeleteIcon from "@/assets/svgs/delete.svg"; 
+
 const queryClient = new QueryClient();
 
 export default function AllTaskLists() {
@@ -125,68 +128,78 @@ function AllTaskListsContent() {
         <h2 className="text-xl font-bold text-gray-200">All Task Lists</h2>
         <button 
           className="px-4 py-2 bg-blue-600 text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
-          onClick={()=>router.push(`/members/add/${groupID}`)}
+          onClick={() => router.push(`/members/add/${groupID}`)}
         >
           Add New Member
         </button>
       </div>
       <CreateTaskList onTaskListCreated={refetch} />
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 cursor-pointer">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {taskLists && taskLists.length > 0 ? (
-          taskLists.map((taskList: {id:string,name:string}) => (
+          taskLists.map((taskList: { id: string; name: string }) => (
             <div
               key={taskList.id}
-              className="bg-white shadow-lg rounded-lg border border-gray-200 p-6 flex flex-col justify-between"
+              className="bg-white shadow-lg rounded-lg border border-gray-200 p-6 flex flex-col justify-between cursor-pointer"
+              onClick={() => router.push(`/tasklist/${taskList.id}`)}
             >
               <div>
                 {editTaskListId === taskList.id ? (
-                <>
-                  <input
-                    type="text"
-                    value={newTaskListName}
-                    onChange={(e) => setNewTaskListName(e.target.value)}
-                    className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
-                    placeholder="Enter new task list name"
-                  />
-                  
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => editTaskListMutation.mutate({ taskListId: taskList.id, newName: newTaskListName })}
-                      className="bg-green-500 hover:bg-green-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={() => setEditTaskListId(null)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </>
+                  <>
+                    <input
+                      type="text"
+                      value={newTaskListName}
+                      onChange={(e) => setNewTaskListName(e.target.value)}
+                      className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+                      placeholder="Enter new task list name"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          editTaskListMutation.mutate({
+                            taskListId: taskList.id,
+                            newName: newTaskListName,
+                          });
+                        }}
+                        className="bg-green-500 hover:bg-green-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditTaskListId(null);
+                        }}
+                        className="bg-red-500 hover:bg-red-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   <>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">{taskList.name}</h3>
                     <p className="text-sm text-gray-500 mb-3">Task List ID: {taskList.id}</p>
-
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-4 items-center">
                       <button
-                        onClick={() => router.push(`/tasklist/${taskList.id}`)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditTaskList(taskList.id, taskList.name);
+                        }}
+                        className="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-md flex items-center justify-center transition duration-150"
                       >
-                        View Tasks
+                        <EditIcon/>
                       </button>
+  
                       <button
-                        onClick={() => handleEditTaskList(taskList.id, taskList.name)}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteTaskList(taskList.id);
+                        }}
+                        className="w-10 h-10 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center justify-center transition duration-150"
                       >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteTaskList(taskList.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
-                      >
-                        Delete
+                        <DeleteIcon/>
                       </button>
                     </div>
                   </>
@@ -199,5 +212,5 @@ function AllTaskListsContent() {
         )}
       </div>
     </div>
-  );
+  );  
 }

@@ -5,6 +5,9 @@ import { useParams } from "next/navigation";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
 
+import EditIcon from "@/assets/svgs/edit.svg";
+import DeleteIcon from "@/assets/svgs/delete.svg"; 
+
 const queryClient = new QueryClient();
 
 export default function AllTasks() {
@@ -145,7 +148,6 @@ function AllTasksContent() {
 
   return (
     <div className="h-screen">
-      {/* Task input and creation */}
       <div className="flex justify-center p-4">
         <div className="w-full max-w-3xl">
           <div className="mb-4">
@@ -163,8 +165,7 @@ function AllTasksContent() {
               Create Task
             </button>
           </div>
-
-          {/* Task list */}
+  
           <div>
             <h3 className="text-lg font-semibold mb-2">Tasks</h3>
             {isLoading && <p>Loading tasks...</p>}
@@ -204,20 +205,24 @@ function AllTasksContent() {
                         </button>
                       ) : (
                         <button
-                          onClick={() => {
+                          className="btn btn-primary flex items-center justify-center"
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setEditTaskId(task.id);
                             setEditTaskName(task.name);
                           }}
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
                         >
-                          Edit
+                          <EditIcon/>
                         </button>
                       )}
                       <button
-                        onClick={() => handleDeleteTask(task.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white font-medium px-3 py-1 rounded-lg shadow transition"
+                        className="btn btn-error flex items-center justify-center"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteTask(task.id);
+                        }}
                       >
-                        Delete
+                        <DeleteIcon/>
                       </button>
                     </div>
                   </li>
@@ -227,5 +232,5 @@ function AllTasksContent() {
         </div>
       </div>
     </div>
-  );
+  );  
 }
