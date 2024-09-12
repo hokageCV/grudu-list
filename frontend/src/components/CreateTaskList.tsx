@@ -77,11 +77,13 @@ function CreateTaskListContent({ onTaskListCreated }: { onTaskListCreated: () =>
           type="text"
           value={taskListName}
           onChange={(e) => setTaskListName(e.target.value)}
-          className="border rounded-lg w-full px-4 py-2 mb-4"
+          className="border border-gray-300 rounded-lg w-full px-4 py-2 mb-4 bg-[#fff5e6] text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          placeholder="Enter task list name"
         />
+
         <button
           onClick={handleCreateTaskList}
-          className="w-full bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition"
+          className="w-full bg-[#2f27ce] text-white rounded-lg px-4 py-2 hover:bg-[#0056b3] transition duration-150"
         >
           {mutation.isPending ? 'Creating...' : 'Create Task List'}
         </button>

@@ -67,11 +67,11 @@ function LoginForm() {
   };
 
   return (
-    <section className="h-screen flex flex-col justify-center items-center bg-background">
+    <section className="h-screen flex flex-col justify-center items-center">
       {mutation.isError && <p className="text-red-600 mb-4">{mutation.error?.message}</p>}
 
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 w-80">
-        <label className="input input-bordered flex items-center gap-2 w-full">
+        <label className="input input-bordered flex items-center gap-2 w-full bg-white text-black">
           <EmailInputIcon />
           <input
             type="text"
@@ -82,7 +82,7 @@ function LoginForm() {
             onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
           />
         </label>
-        <label className="input input-bordered flex items-center gap-2 w-full">
+        <label className="input input-bordered flex items-center gap-2 w-full bg-white text-black">
           <PasswordInputIcon />
           <input
             type="password"
@@ -94,7 +94,10 @@ function LoginForm() {
           />
         </label>
 
-        <button type="submit" className="btn w-full">
+        <button 
+          type="submit"
+          className="btn w-full bg-navbar text-black hover:bg-yellow-400 transition duration-150"
+        >
           Login
         </button>
         {mutation.isPending && <span className="loading loading-spinner"></span>}

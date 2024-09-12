@@ -71,7 +71,7 @@ function SignupForm() {
     <section className="h-screen flex flex-col justify-center items-center bg-background">
       {mutation.isError && <p className="text-red-600 mb-4">Signup failed</p>}
       <form onSubmit={create} className="flex flex-col items-center gap-4">
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 bg-white text-black">
           <UsernameInputIcon />
           <input
             type="text"
@@ -84,7 +84,7 @@ function SignupForm() {
             }
           />
         </label>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 bg-white text-black">
           <EmailInputIcon />
           <input
             type="text"
@@ -97,7 +97,7 @@ function SignupForm() {
             }
           />
         </label>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 bg-white text-black">
           <PasswordInputIcon />
           <input
             type="password"
@@ -111,9 +111,13 @@ function SignupForm() {
           />
         </label>
 
-        <button type="submit" className="btn">
+        <button
+          type="submit"
+          className="btn w-full bg-navbar text-black hover:bg-yellow-400 transition duration-150"
+        >
           Signup
         </button>
+
         {mutation.isPending && <span className="loading loading-spinner"></span>}
       </form>
       <div className="divider w-36 mx-auto"></div>

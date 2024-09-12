@@ -122,19 +122,27 @@ function AllTaskListsContent() {
   };
 
   if (isLoading) {
-    return <div>Loading task lists...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[90vh] bg-[#fff0b5]">
+        <div className="text-black text-lg font-semibold">Loading task lists...</div>
+      </div>
+    );
   }
-
+  
   if (isError) {
-    return <div>Error loading task lists. Please try again.</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[90vh] bg-[#fff0b5]">
+        <div className="text-black text-lg font-semibold">Error loading task lists. Please try again.</div>
+      </div>
+    );
   }
-
+  
   return (
     <div className="p-4">
       <div className="sm:flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-200">All Task Lists</h2>
+        <h2 className="text-xl font-bold text-primary">All Task Lists</h2>
         <button 
-          className="px-4 py-2 bg-blue-600 text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
+          className="px-4 py-2 bg-[#2f27ce] text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
           onClick={() => router.push(`/members/add/${groupID}`)}
         >
           Add New Member
@@ -147,7 +155,7 @@ function AllTaskListsContent() {
           taskLists.map((taskList: { id: string; name: string }) => (
             <div
               key={taskList.id}
-              className="bg-white shadow-lg rounded-lg border border-gray-200 p-6 flex flex-col justify-between cursor-pointer"
+              className="bg-card shadow-lg rounded-lg border border-orange-300 p-6 flex flex-col justify-between cursor-pointer"
               onClick={() => router.push(`/tasklist/${taskList.id}`)}
             >
               <div>
@@ -190,25 +198,25 @@ function AllTaskListsContent() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">{taskList.name}</h3>
                     <p className="text-sm text-gray-500 mb-3">Task List ID: {taskList.id}</p>
                     <div className="flex space-x-4 items-center">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditTaskList(taskList.id, taskList.name);
-                        }}
-                        className="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white rounded-md flex items-center justify-center transition duration-150"
-                      >
-                        <EditIcon/>
-                      </button>
-  
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteTaskList(taskList.id);
-                        }}
-                        className="w-10 h-10 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center justify-center transition duration-150"
-                      >
-                        <DeleteIcon/>
-                      </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditTaskList(taskList.id, taskList.name);
+                      }}
+                      className="flex items-center justify-center"
+                    >
+                      <EditIcon />
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteTaskList(taskList.id);
+                      }}
+                      className="flex items-center justify-center"
+                    >
+                      <DeleteIcon />
+                    </button>
                     </div>
                   </>
                 )}
@@ -216,7 +224,7 @@ function AllTaskListsContent() {
             </div>
           ))
         ) : (
-          <p>No task lists found</p>
+          <p className="text-black">No task lists found</p>
         )}
       </div>
     </div>

@@ -164,18 +164,18 @@ function AllTasksContent() {
               type="text"
               value={taskName}
               onChange={(e) => setTaskName(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="border bg-white text-black my-6 border-gray-300 rounded-lg px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               placeholder="Enter task name"
             />
             <button
               onClick={handleCreateTask}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition"
+              className="bg-[#2f27ce] hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg shadow transition"
             >
               Create Task
             </button>
           </div>
   
-          <div>
+          <div className="text-primary">
             <h3 className="text-lg font-semibold mb-2">Tasks</h3>
             {isLoading && <p>Loading tasks...</p>}
             {isError && <p>Failed to load tasks.</p>}
@@ -214,25 +214,25 @@ function AllTasksContent() {
                         </button>
                       ) : (
                         <button
-                          className="btn btn-primary flex items-center justify-center"
+                          className="flex items-center justify-center w-12 h-12"
                           onClick={(e) => {
                             e.stopPropagation();
                             setEditTaskId(task.id);
                             setEditTaskName(task.name);
                           }}
                         >
-                          <EditIcon/>
+                          <EditIcon />
                         </button>
-                      )}
-                      <button
-                        className="btn btn-error flex items-center justify-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteTask(task.id);
-                        }}
-                      >
-                        <DeleteIcon/>
-                      </button>
+                        )}
+                        <button
+                          className="flex items-center justify-center w-12 h-12"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteTask(task.id);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </button>
                     </div>
                   </li>
                 ))}

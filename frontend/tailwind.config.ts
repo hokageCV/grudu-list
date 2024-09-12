@@ -9,14 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#7f5af0",
+        primary: "#131524",
         secondary: "#565e69",
-        text: "#fffffe",
         border: "#383a61",
-        background: "#16161a",
+        background: "#fff0b5",
         primaryOffset: "#e068fd",
         textOffset: "#94a1b2",
         backgroundOffset: "#131524",
+        navbar:"#fdc318",
+        card:"#f7d986",
       },
     },
   },

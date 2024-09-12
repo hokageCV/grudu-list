@@ -124,12 +124,12 @@ function AddMembersContent() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[88vh] sm:min-h-screen bg-gray-900">
-      <div className="w-full sm:w-2/3 lg:w-1/2 p-6 bg-gray-800 m-2 rounded-lg">
+    <div className="flex justify-center items-center min-h-[88vh] sm:min-h-screen bg-background">
+      <div className="w-full sm:w-2/3 lg:w-1/2 p-6 bg-card m-2 rounded-lg">
         <div className="sm:flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-200">Add User to Group</h2>
+          <h2 className="text-xl font-bold text-primary">Add User to Group</h2>
           <button
-            className="px-4 py-2 bg-blue-600 text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
+            className="px-4 py-2 bg-[#2f27ce] text-white text-lg font-medium rounded-lg hover:bg-blue-700 transition duration-300"
             onClick={handleViewMembers}
           >
             View Group Members
@@ -137,19 +137,19 @@ function AddMembersContent() {
         </div>
         <form onSubmit={handleAddMember} className="mb-4">
           <div className="flex flex-col mb-4">
-            <label htmlFor="userID" className="text-white mb-2">Enter User ID:</label>
+            <label htmlFor="userID" className="text-primary mb-2">Enter User ID:</label>
             <input
               type="text"
               id="userID"
               value={userID}
               onChange={(e) => setUserID(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+              className="border bg-pink-100 border-gray-300 rounded-lg px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
               placeholder="User ID"
             />
           </div>
           <button
             type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
+            className="bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
             disabled={addUserToGroupMutation.isPending}
           >
             {addUserToGroupMutation.isPending ? "Processing..." : "Add User"}
@@ -161,10 +161,10 @@ function AddMembersContent() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full sm:w-2/3 lg:w-1/2">
+        <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-2/3 lg:w-1/2">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-gray-200">Group Members</h3>
+              <h3 className="text-xl font-bold text-primary">Group Members</h3>
               <button
                 className="text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
                 onClick={handleCloseModal}
@@ -172,7 +172,7 @@ function AddMembersContent() {
                 Close
               </button>
             </div>
-            <ul className="list-disc pl-6 text-gray-300">
+            <ul className="list-disc pl-6 text-primary">
               {members?.length > 0 ? (
                 members.map((member: any) => (
                   <li key={member.id} className="mb-2">{member.name} (Member: {member.email})</li>

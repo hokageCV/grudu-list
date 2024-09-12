@@ -67,26 +67,34 @@ function NavbarContent() {
 
   return (
     <div>
-      <div className="navbar bg-secondary text-white sm:hidden">
+      <div className="navbar bg-navbar text-primary sm:hidden">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl" href='/home'>GRUDU LIST</a>
+          <a className="btn btn-ghost text-xl text-primary" href='/home'>GRUDU LIST</a>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-2">
             <li>
-              <a onClick={() => router.push('/group/create')} className="cursor-pointer">
+              <a onClick={() => router.push('/group/create')} className="cursor-pointer text-primary">
                 Create Group
               </a>
             </li>
-            <li className="hidden sm:block"><a onClick={() => router.push('/group')}>My Groups</a></li>
+            <li className="hidden sm:block">
+              <a onClick={() => router.push('/group')} className="text-primary">
+                My Groups
+              </a>
+            </li>
             <li>
               <details>
-                <summary>More</summary>
-                <ul className="bg-base-100 rounded-t-none p-2">
-                  <li><a>Profile</a></li>
-                  <li className="sm:hidden"><a onClick={() => router.push('/group')}>My Groups</a></li>
+                <summary className="text-primary">More</summary>
+                <ul className="bg-yellow-400 rounded-t-none p-2">
+                  <li><a className="text-primary">Profile</a></li>
+                  <li className="sm:hidden">
+                    <a onClick={() => router.push('/group')} className="text-primary">
+                      My Groups
+                    </a>
+                  </li>
                   <li>
-                    <a onClick={handleSignout} className="cursor-pointer">
+                    <a onClick={handleSignout} className="cursor-pointer text-primary">
                       Logout
                     </a>
                   </li>
@@ -95,38 +103,42 @@ function NavbarContent() {
             </li>
           </ul>
         </div>
-        {mutation.isPending && <p>Logging out...</p>}
-        {mutation.isError && <p>Error: {mutation.error?.message}</p>}
+        {mutation.isPending && <p className="text-primary">Logging out...</p>}
+        {mutation.isError && <p className="text-primary">Error: {mutation.error?.message}</p>}
       </div>
-
-      <div className="hidden sm:flex sm:flex-col sm:w-full sm:h-full bg-secondary text-white">
+  
+      {/* Sidebar */}
+      <div className="hidden sm:flex sm:flex-col sm:w-full sm:h-screen bg-navbar text-primary">
         <div className="p-4">
-          <a className="text-2xl font-bold block mb-6" href='/home'>
+          <a className="text-2xl font-bold block mb-6 text-primary" href='/home'>
             GRUDU LIST
           </a>
-          <hr className="border-t-2 border-gray-500 mb-4"/>
+          <hr className="border-t-2 border-gray-800 mb-4" />
         </div>
         <ul className="menu flex flex-col space-y-4 px-4">
           <li>
-            <a onClick={() => router.push('/group/create')} className="cursor-pointer">
+            <a onClick={() => router.push('/group/create')} className="cursor-pointer text-primary">
               Create Group
             </a>
           </li>
           <li>
-            <a onClick={() => router.push('/group')}>My Groups</a>
+            <a onClick={() => router.push('/group')} className="text-primary">
+              My Groups
+            </a>
           </li>
           <li>
-            <a className="cursor-pointer">Profile</a>
+            <a className="cursor-pointer text-primary">Profile</a>
           </li>
           <li>
-            <a onClick={handleSignout} className="cursor-pointer">
+            <a onClick={handleSignout} className="cursor-pointer text-primary">
               Logout
             </a>
           </li>
         </ul>
-        {mutation.isPending && <p className="p-4">Logging out...</p>}
+        {mutation.isPending && <p className="p-4 text-primary">Logging out...</p>}
         {mutation.isError && <p className="p-4 text-red-500">Error: {mutation.error?.message}</p>}
       </div>
     </div>
   );
+  
 }
