@@ -110,15 +110,24 @@ function AllGroupsContent() {
   };
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[90vh] bg-[#fff0b5]">
+        <div className="text-black text-lg font-semibold">Loading...</div>
+      </div>
+    );
   }
-
+  
   if (isError) {
-    return <div>Error fetching groups. Please try again.</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[90vh] bg-[#fff0b5]">
+        <div className="text-black text-lg font-semibold">Error fetching groups. Please try again.</div>
+      </div>
+    );
   }
+  
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-primary">
       <h1 className="text-2xl font-bold mb-4">All Groups</h1>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       {groups && groups.length > 0 ? (
@@ -126,35 +135,34 @@ function AllGroupsContent() {
           {groups.map((group: GroupType) => (
             <div
               key={group.id}
-              className="card bg-neutral text-neutral-content w-full shadow-xl cursor-pointer transition-transform duration-200 ease-in-out transform hover:scale-[1.01] hover:shadow-md hover:shadow-primary/800"
+              className="card bg-card text-neutral-content w-full shadow-xl cursor-pointer transition-transform duration-200 ease-in-out transform hover:scale-[1.01] hover:shadow-md hover:shadow-primary/800"
               onClick={() => router.push(`/group/${group.id}`)}
             >
-              <div className="card-body items-center text-center">
+              <div className="card-body items-center text-primary text-center">
                 <h2 className="card-title">{group.name}</h2>
                 <p>Owner: {group.owner.name} (ID: {group.owner.id})</p>
                 <div className="card-actions justify-center space-x-4 mt-4">
                   <button
-                    className="btn btn-primary flex items-center justify-center"
+                    className="flex items-center justify-center"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleEditClick(group.id);
                     }}
                   >
-                    <EditIcon/>
+                    <EditIcon />
                   </button>
-
                   {group.owner.id === user?.id && (
                     <button
-                      className="btn btn-error flex items-center justify-center"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(group.id);
-                      }}
-                      disabled={deleteMutation.isPending}
+                    className="flex items-center justify-center"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(group.id);
+                    }}
+                    disabled={deleteMutation.isPending}
                     >
-                      <DeleteIcon/>
+                      <DeleteIcon />
                     </button>
-                  )}
+                )}
                 </div>
               </div>
             </div>
@@ -166,11 +174,11 @@ function AllGroupsContent() {
 
       {isModalOpen && (
         <div className="modal modal-open">
-          <div className="modal-box">
+          <div className="modal-box bg-white">
             <h3 className="font-bold text-lg">Confirm Deletion</h3>
             <p>Are you sure you want to delete this group?</p>
             <div className="modal-action">
-              <button className="btn btn-error" onClick={handleConfirmDelete} disabled={deleteMutation.isPending}>
+              <button className="btn btn-error text-white" onClick={handleConfirmDelete} disabled={deleteMutation.isPending}>
                 Yes, delete it
               </button>
               <button className="btn" onClick={handleCancelDelete}>

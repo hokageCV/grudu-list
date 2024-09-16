@@ -22,18 +22,18 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps){
           const isLast = index === breadcrumbs.length - 1;
 
           return (
-            <li key={index} className="inline-flex items-center">
+            <li key={index} className="inline-flex items-center font-bold text-backgroundOffset">
               {isLast ? (
                 <span className="text-gray-500">{breadcrumb.label}</span>
               ) : isTasklistSecondToLast && breadcrumb.label === 'TaskLists' ? (
                 <span
                   onClick={() => router.back()}
-                  className="hover:underline text-blue-600 cursor-pointer"
+                  className="hover:underline cursor-pointer"
                 >
                   {breadcrumb.label}
                 </span>
               ) : (
-                <Link href={breadcrumb.href || '#'} className="hover:underline text-blue-600">
+                <Link href={breadcrumb.href || '#'} className="hover:underline">
                   {breadcrumb.label}
                 </Link>
               )}

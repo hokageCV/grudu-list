@@ -53,7 +53,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className="h-[90vh] sm:h-[100vh] flex justify-center items-center bg-backgroundOffset">
+    <div className="h-[90vh] sm:h-[100vh] flex justify-center items-center bg-background">
       <h1 className="text-4xl font-bold text-primary">
         Welcome {user?.name}
       </h1>

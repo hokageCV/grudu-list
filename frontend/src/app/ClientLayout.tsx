@@ -20,17 +20,17 @@ export default function ClientLayout({
         <>
           <div className="sm:hidden">
             <Navbar />
-            {children}
+            <div className="bg-background">{children}</div>
           </div>
           <div className="hidden sm:flex h-full">
             <div className="w-1/6 h-full bg-secondary">
               <Navbar />
             </div>
-            <div className="w-5/6 h-full overflow-y-auto">{children}</div>
+            <div className="w-5/6 h-full bg-background overflow-y-auto">{children}</div>
           </div>
         </>
       ) : (
-        <div>{children}</div>
+        <div className='bg-background'>{children}</div>
       )}
     </div>
   );

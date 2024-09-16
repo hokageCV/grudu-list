@@ -71,25 +71,25 @@ function CreateGroupForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[90vh] sm:min-h-[100vh] bg-backgroundOffset p-4">
-      <h1 className="text-2xl font-bold mb-4">Enter the Group Name</h1>
+    <div className="flex flex-col items-center justify-center min-h-[90vh] sm:min-h-[100vh] p-4 bg-[#fff0b5]">
+      <h1 className="text-2xl text-primary font-bold mb-4">Enter the Group Name</h1>
       <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Type here"
-        className="input input-bordered w-full max-w-xs text-lg p-2 mb-4"
+        className="bg-yellow-200 text-black w-full max-w-xs text-lg p-3 mb-4 border border-yellow-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
       />
       <button
         onClick={handleSubmit}
-        className="btn btn-primary text-white w-full max-w-xs"
+        className="btn bg-yellow-400 hover:bg-yellow-500 text-black w-full max-w-xs py-2 rounded-md shadow-lg transition duration-150"
         disabled={mutation.isPending}
       >
         {mutation.isPending ? 'Creating...' : 'Create Group'}
       </button>
-
+  
       {mutation.isError && <p className="text-red-500 mt-2">Error: {mutation.error?.message}</p>}
       {mutation.isSuccess && <p className="text-green-500 mt-2">Group created successfully!</p>}
     </div>
-  );
+  );  
 }
