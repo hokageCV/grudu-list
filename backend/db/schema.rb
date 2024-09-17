@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_12_181413) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_17_172123) do
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.integer "owner_id", null: false
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_181413) do
     t.integer "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "editor", null: false
     t.index ["group_id"], name: "index_memberships_on_group_id"
     t.index ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
     t.index ["user_id"], name: "index_memberships_on_user_id"

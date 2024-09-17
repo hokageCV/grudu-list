@@ -17,6 +17,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params.merge(owner_id: current_user.id))
 
     if @group.save
+      Membership.create!(user: current_user, group: @group, role: :owner)
       render json: GroupSerializer.new(@group).serializable_hash[:data][:attributes], status: :created, location: @group
     else
       render json: @group.errors, status: :unprocessable_entity
@@ -41,7 +42,12 @@ class GroupsController < ApplicationController
 
   def members
     @members = @group.members + [@group.owner]
-    render json: UserSerializer.new(@members).serializable_hash[:data].map { |member| member[:attributes] }, status: :ok
+
+    serialized_members = MemberSerializer.new(@members, { params: { group: @group } })
+      .serializable_hash[:data]
+      .map { |member| member[:attributes] }
+
+    render json: serialized_members, status: :ok
   end
 
   private

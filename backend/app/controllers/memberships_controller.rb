@@ -8,7 +8,7 @@ class MembershipsController < ApplicationController
   end
 
   def create
-    @membership = @group.memberships.new(user_id: params[:user_id])
+    @membership = @group.memberships.new(user_id: params[:user_id], role: params[:role])
 
     if @membership.save
       render json: { message: 'User successfully added to group.' }, status: :created

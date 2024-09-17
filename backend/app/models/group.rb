@@ -10,5 +10,10 @@ class Group < ApplicationRecord
 
   scope :viewable_by, ->(user) { where(owner_id: user.id) }
 
-  def authorized?(user) = owner_id == user.id
+  def authorized?(user)
+    return true if owner_id == user.id
+
+    membership = memberships.find_by(user:)
+    membership&.editor? || membership&.manager?
+  end
 end
