@@ -417,7 +417,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"user_id\": {{previous_user_id}}\r\n}",
+									"raw": "{\r\n    \"user_id\": {{previous_user_id}},\r\n    \"role\": \"editor\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
