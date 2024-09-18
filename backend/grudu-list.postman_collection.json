@@ -218,7 +218,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"this is a task\",\n    \"task_list_id\": 2\n}",
+							"raw": "{\n\t\"name\": \"task {{$randomIngverb}}\",\n    \"task_list_id\": {{task_list_id}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -381,7 +381,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"testing task creation modified\"\n}",
+							"raw": "{\n\t\"completed\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -389,13 +389,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/tasks/3",
+							"raw": "{{base_url}}/tasks/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"tasks",
-								"3"
+								"1"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -491,10 +491,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Successful POST request\", function () {",
-											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-											"});",
-											""
+											"let response = pm.response.json();",
+											"let task_list_id = response.id;",
+											"pm.collectionVariables.set('task_list_id', task_list_id);"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -525,7 +524,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"this is another task list 22\"\n}",
+									"raw": "{\n\t\"name\": \"task list {{$randomWord}}\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -749,7 +748,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"super setter club\"\r\n}",
+							"raw": "{\r\n\t\"name\": \"group {{$randomNoun}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

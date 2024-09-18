@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   # GET /tasks
   def index
-    @tasks = Task.all.viewable_by(current_user)
+    @tasks = Task.from_task_list(params[:task_list_id].to_i)
 
     render json: @tasks
   end

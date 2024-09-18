@@ -9,6 +9,7 @@ AllCops:
   Exclude:
     - 'Schema.rb'
     - 'spec/support/database_cleaner.rb'
+    - 'bin/bundle'
 
   SuggestExtensions: false
 
@@ -19,3 +20,6 @@ RSpec/InstanceVariable:
 RSpec/MultipleExpectations:
   Enabled: true
   Max: 10
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @groups = Group
       .left_joins(:memberships)
       .where(groups: { owner_id: @user.id })
-      .or( Group.where(memberships: { user_id: @user.id }) )
+      .or(Group.where(memberships: { user_id: @user.id }))
       .distinct
 
     render json: GroupSerializer.new(@groups).serializable_hash[:data].map { |group| group[:attributes] }, status: :ok

@@ -7,7 +7,12 @@ class Task < ApplicationRecord
   validates :owner, presence: true
   validates :task_list, presence: true
 
-  scope :viewable_by, ->(user) { where(owner_id: user.id) }
+  scope :from_task_list, ->(task_list_id) { where(task_list_id:) }
 
-  def authorized?(user) = owner_id == user.id
+  def authorized?(user)
+    task_list.group.memberships
+      .where(user_id: user.id)
+      .where(role: ['editor', 'owner'])
+      .exists?
+  end
 end
