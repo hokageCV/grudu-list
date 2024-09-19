@@ -20,6 +20,7 @@ function AddMembersContent() {
   const [user, setUser] = useState<UserType | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedRole, setSelectedRole] = useState("viewer");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { groupID } = useParams();
 
@@ -57,7 +58,7 @@ function AddMembersContent() {
           'client': user?.client || '',
           'access-token': user?.accessToken || '',
         },
-        body: JSON.stringify({ user_id: userID }),
+        body: JSON.stringify({ user_id: userID, role: selectedRole }),
       });
       if (!response.ok) {
         throw new Error("Failed to add user to group");
@@ -68,6 +69,7 @@ function AddMembersContent() {
       setSuccessMessage("User added to the group successfully!");
       setErrorMessage("");
       setUserID("");
+      setSelectedRole("viewer");
       setTimeout(() => setSuccessMessage(""), 3000);
     },
     onError: (error) => {
@@ -147,6 +149,17 @@ function AddMembersContent() {
               placeholder="User ID"
             />
           </div>
+          <div className="flex flex-col mb-4">
+            <label className="text-primary mb-2">Select Role:</label>
+            <select
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              className="border bg-pink-100 border-gray-300 rounded-lg px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+            >
+              <option value="viewer">Viewer</option>
+              <option value="editor">Editor</option>
+            </select>
+          </div>
           <button
             type="submit"
             className="bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2 rounded-lg shadow transition duration-150 ease-in-out"
@@ -175,7 +188,7 @@ function AddMembersContent() {
             <ul className="list-disc pl-6 text-primary">
               {members?.length > 0 ? (
                 members.map((member: any) => (
-                  <li key={member.id} className="mb-2">{member.name} (Member: {member.email})</li>
+                  <li key={member.id} className="mb-2">{member.name} (Role: {member.role})</li>
                 ))
               ) : (
                 <li>No members found</li>

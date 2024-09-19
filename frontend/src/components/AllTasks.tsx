@@ -135,7 +135,7 @@ function AllTasksContent() {
     queryKey: ["tasks", taskID],
     queryFn: async () => {
       if (!taskID) return;
-      const response = await fetch(`${BASE_URL}/tasks`, {
+      const response = await fetch(`${BASE_URL}/tasks?task_list_id=${taskID}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -144,15 +144,15 @@ function AllTasksContent() {
           'access-token': user?.accessToken || '',
         },
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
       }
-
       return await response.json();
     },
     enabled: !!user && !!taskID,
   });
+  
 
   return (
     <div className="h-screen">

@@ -43,7 +43,7 @@ function AllGroupsContent() {
   const { data: groups, isPending, isError, refetch } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
-      const response = await fetch(`${BASE_URL}/groups`, {
+      const response = await fetch(`${BASE_URL}/users/${user?.id}/groups`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ function AllGroupsContent() {
       }
 
       const data = await response.json();
-      return data.filter((group: GroupType) => group.owner.id === user?.id);
+      return data;
     },
     enabled: !!user,
   });
