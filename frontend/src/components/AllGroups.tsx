@@ -142,15 +142,19 @@ function AllGroupsContent() {
                 <h2 className="card-title">{group.name}</h2>
                 <p>Owner: {group.owner.name} (ID: {group.owner.id})</p>
                 <div className="card-actions justify-center space-x-4 mt-4">
-                  <button
-                    className="flex items-center justify-center"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditClick(group.id);
-                    }}
-                  >
-                    <EditIcon />
-                  </button>
+                  {
+                    user?.name === group.owner.name && (
+                      <button
+                        className="flex items-center justify-center"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(group.id);
+                        }}
+                      >
+                        <EditIcon />
+                      </button>
+                    )
+                  }
                   {group.owner.id === user?.id && (
                     <button
                     className="flex items-center justify-center"

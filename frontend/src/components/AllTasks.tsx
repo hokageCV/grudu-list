@@ -221,7 +221,7 @@ function AllTasksContent() {
                         type="text"
                         value={editTaskName}
                         onChange={(e) => setEditTaskName(e.target.value)}
-                        className="border border-gray-300 rounded-lg px-2 py-1"
+                        className="border text-white border-gray-300 rounded-lg px-2 py-1"
                         autoFocus
                       />
                     ) : (
