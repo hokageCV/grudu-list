@@ -43,7 +43,7 @@ function AllGroupsContent() {
   const { data: groups, isPending, isError, refetch } = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
-      const response = await fetch(`${BASE_URL}/groups`, {
+      const response = await fetch(`${BASE_URL}/users/${user?.id}/groups`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ function AllGroupsContent() {
       }
 
       const data = await response.json();
-      return data.filter((group: GroupType) => group.owner.id === user?.id);
+      return data;
     },
     enabled: !!user,
   });
@@ -142,15 +142,19 @@ function AllGroupsContent() {
                 <h2 className="card-title">{group.name}</h2>
                 <p>Owner: {group.owner.name} (ID: {group.owner.id})</p>
                 <div className="card-actions justify-center space-x-4 mt-4">
-                  <button
-                    className="flex items-center justify-center"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditClick(group.id);
-                    }}
-                  >
-                    <EditIcon />
-                  </button>
+                  {
+                    user?.name === group.owner.name && (
+                      <button
+                        className="flex items-center justify-center"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(group.id);
+                        }}
+                      >
+                        <EditIcon />
+                      </button>
+                    )
+                  }
                   {group.owner.id === user?.id && (
                     <button
                     className="flex items-center justify-center"
