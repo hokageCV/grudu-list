@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { QueryClient, QueryClientProvider, useMutation, useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "@/constant/constants";
 import { useParams } from "next/navigation";
@@ -70,6 +70,7 @@ function AddMembersContent() {
       setErrorMessage("");
       setUserID("");
       setSelectedRole("viewer");
+      refetchMembers();
       setTimeout(() => setSuccessMessage(""), 3000);
     },
     onError: (error) => {
@@ -91,7 +92,8 @@ function AddMembersContent() {
       if (fetchedUser) {
         addUserToGroupMutation.mutate();
       }
-    } catch (error: any) {
+    } 
+    catch (error: any) {
       setErrorMessage(error.message || "User not found");
       setTimeout(() => setErrorMessage(""), 3000);
     }
@@ -111,19 +113,58 @@ function AddMembersContent() {
       if (!response.ok) {
         throw new Error("Failed to fetch group members");
       }
-      return response.json();
+      const result = await response.json();
+      const onlyMembers = result.filter((member: any) => member.role !== "owner");
+      return onlyMembers;
     },
     enabled: false,
   });
 
+  const removeMemberMutation = useMutation({
+    mutationFn: async (memberID: string) => {
+      const response = await fetch(`${BASE_URL}/groups/${groupID}/memberships/${memberID}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'uid': user?.uid || '',
+          'client': user?.client || '',
+          'access-token': user?.accessToken || '',
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to remove member");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      setSuccessMessage("Member removed successfully");
+      refetchMembers();
+      setTimeout(() => setSuccessMessage(""), 3000);
+    },
+
+    onError: (error) => {
+      setErrorMessage(error.message || "Error removing member");
+      setTimeout(() => setErrorMessage(""), 3000);
+    },
+  }
+);
+
+  const memoizedMembers = useMemo(() => members, [members]);
+
   const handleViewMembers = () => {
+    if(memoizedMembers === undefined){
+      refetchMembers();
+    }
     setIsModalOpen(true);
-    refetchMembers();
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleRemoveMember = (memberID:string) => {
+    removeMemberMutation.mutate(memberID);
+  }
 
   return (
     <div className="flex justify-center items-center min-h-[88vh] sm:min-h-screen bg-background">
@@ -186,9 +227,17 @@ function AddMembersContent() {
               </button>
             </div>
             <ul className="list-disc pl-6 text-primary">
-              {members?.length > 0 ? (
-                members.map((member: any) => (
-                  <li key={member.id} className="mb-2">{member.name} (Role: {member.role})</li>
+              {memoizedMembers?.length > 0 ? (
+                memoizedMembers.map((member: any) => (
+                  <li key={member.id} className="mb-2 flex items-center justify-between">
+                    <span>{member.email} (Role: {member.role})</span>
+                    <button
+                      className="bg-black text-white px-2 py-1 rounded hover:bg-gray-800 transition duration-300"
+                      onClick={() => handleRemoveMember(member.id)}
+                    >
+                      Remove
+                    </button>
+                  </li>
                 ))
               ) : (
                 <li>No members found</li>
