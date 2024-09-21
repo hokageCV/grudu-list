@@ -6,9 +6,10 @@ import { BASE_URL } from "@/constant/constants";
 import { useParams, useRouter } from "next/navigation";
 import CreateTaskList from "@/components/CreateTaskList";
 
-import EditIcon from "@/assets/svgs/edit.svg";
-import DeleteIcon from "@/assets/svgs/delete.svg";
+import EditIcon from "@/assets/pngs/edit.png";
+import DeleteIcon from "@/assets/pngs/delete.png";
 import Breadcrumbs from "./BreadCrumbs";
+import Image from "next/image";
 
 const breadcrumbs = [
   { label: 'Home', href: '/home' },
@@ -218,7 +219,11 @@ function AllTaskListsContent() {
                       }}
                       className="flex items-center justify-center"
                     >
-                      <EditIcon className="w-5 h-5" />
+                      <Image
+                        src={EditIcon}
+                        alt="Edit"
+                        width={20}
+                      />
                     </button>
                     <button
                       onClick={(e) => {
@@ -227,7 +232,12 @@ function AllTaskListsContent() {
                       }}
                       className="flex items-center justify-center"
                     >
-                      <DeleteIcon className="w-5 h-5" />
+                      <Image
+                        src={DeleteIcon}
+                        alt="Delete"
+                        width={21}
+                        className="mt-[1.5px]"
+                      />
                     </button>
                   </div>
                 )

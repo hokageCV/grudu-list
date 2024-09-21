@@ -5,9 +5,10 @@ import { useParams, useSearchParams } from "next/navigation";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
 
-import EditIcon from "@/assets/svgs/edit.svg";
-import DeleteIcon from "@/assets/svgs/delete.svg"; 
+import EditIcon from "@/assets/pngs/edit.png";
+import DeleteIcon from "@/assets/pngs/delete.png"; 
 import Breadcrumbs from "./BreadCrumbs";
+import Image from "next/image";
 
 const breadcrumbs = [
   { label: 'Home', href: '/home' },
@@ -248,7 +249,11 @@ function AllTasksContent() {
                             setEditTaskName(task.name);
                           }}
                         >
-                          <EditIcon />
+                          <Image
+                            src={EditIcon}
+                            alt="Edit"
+                            width={20}
+                          />
                         </button>
                       )}
                       <button
@@ -258,7 +263,12 @@ function AllTasksContent() {
                           handleDeleteTask(task.id);
                         }}
                       >
-                        <DeleteIcon />
+                        <Image
+                          src={DeleteIcon}
+                          alt="Delete"
+                          width={21}
+                          className="mt-[2.5px]"
+                        />
                       </button>
                     </div>
                   )}

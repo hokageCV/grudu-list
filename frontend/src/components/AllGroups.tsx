@@ -7,9 +7,10 @@ import { GroupType } from "@/context/groupStore";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
 
-import EditIcon from "@/assets/svgs/edit.svg";
-import DeleteIcon from "@/assets/svgs/delete.svg"; 
+import EditIcon from "@/assets/pngs/edit.png";
+import DeleteIcon from "@/assets/pngs/delete.png";
 import Breadcrumbs from "@/components/BreadCrumbs";
+import Image from "next/image";
 
 const breadcrumbs = [
   { label: 'Home', href: '/home' },
@@ -151,7 +152,11 @@ function AllGroupsContent() {
                           handleEditClick(group.id);
                         }}
                       >
-                        <EditIcon />
+                        <Image
+                          src={EditIcon}
+                          alt="Edit"
+                          width={20}
+                        />
                       </button>
                     )
                   }
@@ -164,7 +169,11 @@ function AllGroupsContent() {
                     }}
                     disabled={deleteMutation.isPending}
                     >
-                      <DeleteIcon />
+                      <Image
+                          src={DeleteIcon}
+                          alt="Delete"
+                          width={21}
+                      />
                     </button>
                 )}
                 </div>
