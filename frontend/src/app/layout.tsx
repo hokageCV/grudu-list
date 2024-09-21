@@ -6,8 +6,8 @@ import ClientLayout from './ClientLayout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Next JS template',
-  description: 'Template for fast development with Next JS',
+  title: 'Grudu List',
+  description: 'Manage tasks collaboratively',
   icons: { icon: '/bird.png' },
 };
 
