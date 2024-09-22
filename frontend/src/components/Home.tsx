@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useUserGroups } from '@/hooks/useUserGroups';
 import { useGroupStore } from '@/context/groupStore';
 import { UserType } from '@/context/authStore';
+import usePingBackend from '@/hooks/useWakeUpBackend';
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const HomePage = () => {
 };
 
 export default function Home() {
+  usePingBackend();
   return (
     <QueryClientProvider client={queryClient}>
       <HomePage />
