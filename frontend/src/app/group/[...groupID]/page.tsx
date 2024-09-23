@@ -1,4 +1,4 @@
-import AllTaskLists from "@/components/AllTaskLists"
+import AllTaskLists from "@/app/group/[...groupID]/AllTaskLists"
 
 export default function page() {
   return (

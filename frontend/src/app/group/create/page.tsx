@@ -1,4 +1,4 @@
-import CreateGroup from "@/components/CreateGroup"
+import CreateGroup from "@/app/group/create/CreateGroup"
 
 export default function page() {
   return (

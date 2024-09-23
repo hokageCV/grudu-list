@@ -4,11 +4,11 @@ import { QueryClient, QueryClientProvider, useQuery, useMutation } from "@tansta
 import { UserType } from "@/context/authStore";
 import { BASE_URL } from "@/constant/constants";
 import { useParams, useRouter } from "next/navigation";
-import CreateTaskList from "@/components/CreateTaskList";
+import CreateTaskList from "@/app/group/[...groupID]/CreateTaskList";
 
 import EditIcon from "@/assets/pngs/edit.png";
 import DeleteIcon from "@/assets/pngs/delete.png";
-import Breadcrumbs from "./BreadCrumbs";
+import Breadcrumbs from "../../../components/BreadCrumbs";
 import Image from "next/image";
 
 const breadcrumbs = [
