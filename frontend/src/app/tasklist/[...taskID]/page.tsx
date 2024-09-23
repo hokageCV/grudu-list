@@ -1,4 +1,4 @@
-import AllTasks from '@/components/AllTasks'
+import AllTasks from '@/app/tasklist/[...taskID]/AllTasks'
 import React from 'react'
 
 export default function page() {

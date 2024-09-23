@@ -1,4 +1,4 @@
-import SignupPage from "@/components/Signup"
+import SignupPage from "@/app/auth/signup/Signup"
 
 export default function page(){
     return(
