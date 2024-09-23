@@ -1,4 +1,4 @@
-import AllGroups from "@/components/AllGroups"
+import AllGroups from "@/app/group/AllGroups"
 
 export default function page() {
   return (

@@ -7,7 +7,7 @@ import { UserType } from "@/context/authStore";
 
 import EditIcon from "@/assets/pngs/edit.png";
 import DeleteIcon from "@/assets/pngs/delete.png"; 
-import Breadcrumbs from "./BreadCrumbs";
+import Breadcrumbs from "@/components/BreadCrumbs";
 import Image from "next/image";
 
 const breadcrumbs = [
