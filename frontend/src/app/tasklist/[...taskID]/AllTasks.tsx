@@ -5,10 +5,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import { BASE_URL } from "@/constant/constants";
 import { UserType } from "@/context/authStore";
 
-import EditIcon from "@/assets/pngs/edit.png";
-import DeleteIcon from "@/assets/pngs/delete.png"; 
 import Breadcrumbs from "@/components/BreadCrumbs";
-import Image from "next/image";
+import Task from "./Task";
 
 const breadcrumbs = [
   { label: 'Home', href: '/home' },
@@ -129,7 +127,7 @@ function AllTasksContent() {
   };
 
   const handleCheckboxChange = (task: { id: string; name: string; completed: boolean }) => {
-    updateTaskMutation.mutate({ ...task, completed: !task.completed });
+    updateTaskMutation.mutate(task);
   };
 
   const handleEditTaskSave = (taskId: string, newName: string, currentCompleted: boolean) => {
@@ -194,90 +192,26 @@ function AllTasksContent() {
               </button>
             </div>
           )}
-
   
           <div className="text-primary">
             <p className="text-xl font-semibold mb-2 mt-4">Tasks</p>
             {isLoading && <p>Loading tasks...</p>}
             {isError && <p>Failed to load tasks.</p>}
             <ul>
-              {filteredAndSortedTasks.map((task: { id: string; name: string; completed: boolean }) => (
-                <li
+              {filteredAndSortedTasks.map((task:{id: string; name: string; completed: boolean}) => (
+                <Task
                   key={task.id}
-                  className={`border-b border-gray-300 py-3 px-4 flex items-center justify-between rounded-lg mb-2 ${
-                    task.completed ? 'bg-gray-100' : 'bg-white'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    {isOwnerOrEditor && (
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => handleCheckboxChange(task)}
-                        className="mr-2 w-5 h-5 cursor-pointer"
-                      />
-                    )}
-                    {editTaskId === task.id ? (
-                      <input
-                        type="text"
-                        value={editTaskName}
-                        onChange={(e) => setEditTaskName(e.target.value)}
-                        className="border text-white border-gray-300 rounded-lg px-2 py-1"
-                        autoFocus
-                      />
-                    ) : (
-                      <span className={`text-base ${task.completed ? 'line-through text-gray-500' : ''}`}>
-                        {task.name}
-                      </span>
-                    )}
-                  </div>
-                  {isOwnerOrEditor && (
-                    <div className="flex space-x-2">
-                      {editTaskId === task.id ? (
-                        <button
-                          onClick={() => handleEditTaskSave(task.id, editTaskName, task.completed)}
-                          className="bg-green-500 hover:bg-green-600 text-white font-medium px-3 py-1 rounded-lg shadow transition"
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          className="flex items-center justify-center w-8 h-8"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEditTaskId(task.id);
-                            setEditTaskName(task.name);
-                          }}
-                        >
-                          <Image
-                            src={EditIcon}
-                            alt="Edit"
-                            width={20}
-                          />
-                        </button>
-                      )}
-                      <button
-                        className="flex items-center justify-center w-8 h-8"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteTask(task.id);
-                        }}
-                      >
-                        <Image
-                          src={DeleteIcon}
-                          alt="Delete"
-                          width={21}
-                          className="mt-[2.5px]"
-                        />
-                      </button>
-                    </div>
-                  )}
-                </li>
+                  task={task}
+                  isOwnerOrEditor={isOwnerOrEditor}
+                  onCheckboxChange={handleCheckboxChange}
+                  onEditTaskSave={handleEditTaskSave}
+                  onDeleteTask={handleDeleteTask}
+                />
               ))}
             </ul>
           </div>
         </div>
       </div>
     </div>
-  );    
+  );  
 }
