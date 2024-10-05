@@ -57,6 +57,10 @@ group :development do
   gem 'rubocop-factory_bot', require: false
 end
 
+group :production do
+  gem 'pg'
+end
+
 gem 'devise'
 gem 'devise_token_auth'
 gem 'jsonapi-serializer'
